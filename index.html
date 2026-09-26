@@ -1,20 +1,255 @@
-com">Email Us</a></div>
-   </div>
-  </div>
- </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AnasKabir Multiservices - Insurance, Banking and Financial Services">
+<title>AnasKabir Multiservices | Insurance, Banking & Financial Services</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#101828;background:#fff;line-height:1.6}
+a{text-decoration:none}
+.container{width:92%;max-width:1180px;margin:auto}
+header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e5e7eb}
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;color:#101828;font-weight:800;font-size:20px}
+.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#1769e8,#673de6)}
+.navlinks{display:flex;gap:22px;font-weight:700}
+.navlinks a{color:#344054}
+.menu{display:none;border:0;background:#eef4ff;border-radius:10px;padding:8px 12px;font-size:24px}
+.hero{padding:80px 0;background:linear-gradient(135deg,#f5faff,#f5f0ff)}
+.hero-grid,.about-grid,.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
+.badge{display:inline-block;padding:9px 18px;border-radius:30px;background:#eaf2ff;color:#175cd3;font-weight:800}
+h1{font-size:clamp(42px,6vw,72px);line-height:1.03;margin:20px 0}
+.grad{background:linear-gradient(90deg,#1769e8,#673de6);-webkit-background-clip:text;color:transparent}
+.hero p{font-size:19px;color:#475467}
+.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;font-weight:800}
+.primary{background:#1769e8;color:#fff}.green{background:#16a34a;color:#fff}.outline{background:#fff;color:#101828;border:1px solid #d0d5dd}
+.card,.service,.segment,.step,.contact-card,.compare{background:#fff;border:1px solid #e4e7ec;border-radius:20px;padding:26px;box-shadow:0 8px 25px rgba(16,24,40,.07)}
+.quick{display:grid;gap:12px}.quick div{background:#f8fafc;border-radius:14px;padding:14px}
+section{padding:72px 0}
+.head{text-align:center;max-width:760px;margin:0 auto 38px}
+.head h2{font-size:38px;margin:0 0 10px}.head p{color:#475467}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.service h3,.segment h3{margin:8px 0;font-size:20px}.icon{font-size:28px}
+.service p,.segment p,.about p,.step p,.contact-card p,.compare p{color:#475467}
+.alt{background:#f7f9fc}
+.service ul,.compare ul{padding-left:20px;color:#475467}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.step{text-align:center}.num{width:44px;height:44px;border-radius:50%;margin:0 auto 12px;background:#1769e8;color:#fff;display:grid;place-items:center;font-weight:800}
+.docs{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.docs .card h3{margin-top:0}
+.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;background:#fff;border-radius:15px;overflow:hidden}.table th,.table td{padding:14px;border:1px solid #e4e7ec;text-align:left}.table th{background:#eef4ff}
+.about{background:#f6f8ff}.check{display:grid;gap:10px;color:#475467}
+.contact{background:linear-gradient(135deg,#eef5ff,#f4efff)}
+.item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #eee}.item:last-child{border-bottom:0}.item a{color:#175cd3}
+footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-content:space-between;gap:20px}
+.float{position:fixed;right:18px;bottom:18px;background:#16a34a;color:#fff;padding:14px 20px;border-radius:40px;font-weight:800;z-index:200;box-shadow:0 8px 25px #0003}
+@media(max-width:850px){
+.navlinks{display:none;position:absolute;top:76px;left:0;right:0;background:#fff;padding:18px 4%;flex-direction:column;border-bottom:1px solid #ddd}
+.navlinks.show{display:flex}.menu{display:block}
+.hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.process{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+.grid,.docs,.process{grid-template-columns:1fr}section{padding:55px 0}.foot{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container nav">
+<a class="brand" href="#home"><span class="logo">AK</span>AnasKabir Multiservices</a>
+<button class="menu" onclick="toggleMenu()">☰</button>
+<nav class="navlinks" id="nav">
+<a href="#home">Home</a><a href="#services">Services</a><a href="#insurance">Insurance</a>
+<a href="#banking">Banking</a><a href="#process">Process</a><a href="#contact">Contact</a>
+</nav>
+</div>
+</header>
+
+<main id="home">
+
+<section class="hero">
+<div class="container hero-grid">
+<div>
+<span class="badge">INSURANCE • BANKING • FINANCIAL SERVICES</span>
+<h1>Simple solutions for your <span class="grad">financial needs.</span></h1>
+<p>AnasKabir Multiservices provides assistance for individuals and businesses with insurance, banking and financial service requirements through a simple, convenient and professional service experience.</p>
+<div class="buttons">
+<a class="btn primary" href="tel:+918600295143">📞 Call Now</a>
+<a class="btn green" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a>
+<a class="btn outline" href="mailto:anaskabirmultiservices@protonmail.com">✉️ Email Us</a>
+</div>
+</div>
+<div class="card">
+<h2>Your trusted service partner</h2>
+<div class="quick">
+<div>🛡️ <b>Insurance Assistance</b><br>Health, Life, Motor, Term, Corporate & Group Health</div>
+<div>🏦 <b>Banking Services</b><br>Bank accounts and related service assistance</div>
+<div>💳 <b>Financial Services</b><br>Credit cards, personal loans and home/housing loan assistance</div>
+<div>📋 <b>Documentation Support</b><br>Guidance for required documents and service process</div>
+</div>
+</div>
+</div>
 </section>
+
+<section id="services">
+<div class="container">
+<div class="head"><h2>Our Complete Services</h2><p>Item-wise services covered in the AnasKabir Multiservices presentation.</p></div>
+<div class="grid">
+<div class="service"><div class="icon">🏥</div><h3>Health Insurance</h3><p>Assistance for individual and family health insurance requirements, policy enquiries and service coordination.</p></div>
+<div class="service"><div class="icon">❤️</div><h3>Life Insurance</h3><p>Life insurance service assistance and guidance based on customer requirements.</p></div>
+<div class="service"><div class="icon">🚗</div><h3>Motor Insurance</h3><p>Assistance for car, two-wheeler and other motor insurance requirements.</p></div>
+<div class="service"><div class="icon">🛡️</div><h3>Term Insurance</h3><p>Term insurance enquiry, documentation and application assistance.</p></div>
+<div class="service"><div class="icon">🏢</div><h3>Corporate Insurance</h3><p>Insurance assistance for businesses and corporate requirements.</p></div>
+<div class="service"><div class="icon">👥</div><h3>Group Health Insurance</h3><p>Group health insurance assistance for organisations, employees and groups.</p></div>
+<div class="service"><div class="icon">🏦</div><h3>Bank Accounts</h3><p>Assistance with bank account-related requirements and service coordination.</p></div>
+<div class="service"><div class="icon">💳</div><h3>Credit Cards</h3><p>Credit card enquiry and application assistance, subject to applicable eligibility and issuer terms.</p></div>
+<div class="service"><div class="icon">💰</div><h3>Personal Loans</h3><p>Personal loan enquiry and application assistance, subject to eligibility and lender approval.</p></div>
+<div class="service"><div class="icon">🏠</div><h3>Housing / Home Loans</h3><p>Home loan and housing finance enquiry and documentation assistance.</p></div>
+<div class="service"><div class="icon">📊</div><h3>Financial Services</h3><p>General assistance for selected financial service requirements and customer enquiries.</p></div>
+<div class="service"><div class="icon">📑</div><h3>Documentation & Coordination</h3><p>Guidance on documents, forms, application steps and coordination with the relevant service provider.</p></div>
+</div>
+</div>
+</section>
+
+<section id="insurance" class="alt">
+<div class="container">
+<div class="head"><h2>Insurance Services – Detailed</h2><p>Support across personal, family, group and business insurance requirements.</p></div>
+<div class="grid">
+<div class="service"><h3>🏥 Health Insurance</h3><ul><li>Individual health insurance</li><li>Family health insurance</li><li>Policy enquiry and service assistance</li><li>Documentation guidance</li></ul></div>
+<div class="service"><h3>❤️ Life & Term Insurance</h3><ul><li>Life insurance enquiries</li><li>Term insurance assistance</li><li>Application/document guidance</li><li>Customer requirement discussion</li></ul></div>
+<div class="service"><h3>🚗 Motor Insurance</h3><ul><li>Car insurance</li><li>Two-wheeler insurance</li><li>Policy-related assistance</li><li>Renewal/service coordination</li></ul></div>
+<div class="service"><h3>🏢 Corporate Insurance</h3><ul><li>Business insurance requirements</li><li>Corporate policy assistance</li><li>Documentation coordination</li><li>Service-provider coordination</li></ul></div>
+<div class="service"><h3>👥 Group Health Insurance</h3><ul><li>Employee/group requirements</li><li>Group health policy assistance</li><li>Basic documentation guidance</li><li>Service coordination</li></ul></div>
+<div class="service"><h3>📋 Insurance Assistance</h3><ul><li>Requirement assessment</li><li>Option explanation</li><li>Application support</li><li>Follow-up and coordination</li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="banking">
+<div class="container">
+<div class="head"><h2>Banking & Financial Services</h2><p>Assistance for customers looking for banking and finance-related services.</p></div>
+<div class="grid">
+<div class="service"><div class="icon">🏦</div><h3>Bank Accounts</h3><p>Assistance with account-related enquiries, documentation and application process.</p></div>
+<div class="service"><div class="icon">💳</div><h3>Credit Cards</h3><p>Credit card enquiry and application assistance according to applicable eligibility and provider terms.</p></div>
+<div class="service"><div class="icon">💰</div><h3>Personal Loans</h3><p>Personal loan enquiry and documentation assistance. Final approval is by the concerned lender.</p></div>
+<div class="service"><div class="icon">🏠</div><h3>Housing / Home Loans</h3><p>Home loan enquiry, basic documentation and application assistance.</p></div>
+<div class="service"><div class="icon">📈</div><h3>Financial Services</h3><p>Assistance for selected financial service requirements and customer enquiries.</p></div>
+<div class="service"><div class="icon">🤝</div><h3>Customer Support</h3><p>Simple communication, document guidance and coordination with the relevant provider.</p></div>
+</div>
+</div>
+</section>
+
+<section id="customers" class="alt">
+<div class="container">
+<div class="head"><h2>Who We Serve</h2><p>Our service assistance is designed for different customer requirements.</p></div>
+<div class="grid">
+<div class="segment"><h3>👤 Individuals</h3><p>Customers looking for personal insurance, banking or financial service assistance.</p></div>
+<div class="segment"><h3>👨‍👩‍👧 Families</h3><p>Families seeking health insurance and related service assistance.</p></div>
+<div class="segment"><h3>👥 Groups & Employees</h3><p>Organisations and groups requiring group health insurance assistance.</p></div>
+<div class="segment"><h3>🏢 Businesses</h3><p>Businesses requiring corporate insurance and selected financial services.</p></div>
+<div class="segment"><h3>🚗 Vehicle Owners</h3><p>Customers requiring motor insurance assistance.</p></div>
+<div class="segment"><h3>🏠 Loan Applicants</h3><p>Customers seeking personal or housing/home loan information and application support.</p></div>
+</div>
+</div>
+</section>
+
+<section id="process">
+<div class="container">
+<div class="head"><h2>Our Service Process</h2><p>A simple step-by-step approach.</p></div>
+<div class="process">
+<div class="step"><div class="num">1</div><h3>Requirement</h3><p>Understand your service requirement.</p></div>
+<div class="step"><div class="num">2</div><h3>Information</h3><p>Explain the relevant service and basic requirements.</p></div>
+<div class="step"><div class="num">3</div><h3>Documents</h3><p>Guide you regarding applicable documents and forms.</p></div>
+<div class="step"><div class="num">4</div><h3>Coordination</h3><p>Assist with the application/service process and follow-up.</p></div>
+</div>
+</div>
+</section>
+
+<section id="documents" class="alt">
+<div class="container">
+<div class="head"><h2>General Documentation Guidance</h2><p>Exact requirements vary by product, provider and customer profile.</p></div>
+<div class="docs">
+<div class="card"><h3>🪪 Common KYC Documents</h3><ul><li>PAN Card</li><li>Aadhaar / applicable identity proof</li><li>Address proof</li><li>Photograph, where applicable</li></ul></div>
+<div class="card"><h3>💼 Income / Financial Documents</h3><ul><li>Income proof, where applicable</li><li>Bank statements, where applicable</li><li>Business documents, where applicable</li><li>Other provider-specific documents</li></ul></div>
+<div class="card"><h3>🏥 Insurance Documents</h3><ul><li>Identity and address documents</li><li>Existing policy details, where applicable</li><li>Medical information, where required</li><li>Other insurer-specific documents</li></ul></div>
+<div class="card"><h3>🏠 Loan Documents</h3><ul><li>KYC documents</li><li>Income documents</li><li>Bank statements</li><li>Property documents, where applicable</li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="comparison">
+<div class="container">
+<div class="head"><h2>Service Comparison</h2><p>Different services address different customer requirements.</p></div>
+<div class="table-wrap">
+<table class="table">
+<tr><th>Service</th><th>Main Purpose</th><th>Typical Customer Need</th></tr>
+<tr><td>Health Insurance</td><td>Health-related financial protection</td><td>Individual / family coverage</td></tr>
+<tr><td>Life Insurance</td><td>Life protection</td><td>Long-term family financial protection</td></tr>
+<tr><td>Motor Insurance</td><td>Vehicle insurance</td><td>Car / two-wheeler requirements</td></tr>
+<tr><td>Term Insurance</td><td>Life protection for a specified term</td><td>Protection planning</td></tr>
+<tr><td>Corporate / Group Health</td><td>Business / employee coverage</td><td>Organisations and groups</td></tr>
+<tr><td>Bank Accounts</td><td>Banking services</td><td>Personal / business banking needs</td></tr>
+<tr><td>Credit Cards</td><td>Credit facility</td><td>Eligible customers seeking a card</td></tr>
+<tr><td>Personal Loans</td><td>Borrowing for personal needs</td><td>Eligible loan applicants</td></tr>
+<tr><td>Home Loans</td><td>Housing finance</td><td>Eligible home/property buyers</td></tr>
+</table>
+</div>
+</div>
+</section>
+
+<section class="about" id="about">
+<div class="container about-grid">
+<div>
+<span class="badge">ABOUT ANASKABIR MULTISERVICES</span>
+<h2>Simple, convenient and professional assistance.</h2>
+<p>AnasKabir Multiservices assists individuals and businesses with insurance, banking and financial service requirements.</p>
+<div class="check">
+<div>✓ Personalised customer assistance</div>
+<div>✓ Simple service explanation</div>
+<div>✓ Documentation guidance</div>
+<div>✓ Application and coordination support</div>
+<div>✓ Phone and WhatsApp communication</div>
+</div>
+</div>
+<div class="card"><h2>Important</h2><p>Services are subject to the eligibility criteria, terms, conditions, documentation and approval requirements of the concerned insurance company, bank, lender or financial service provider.</p></div>
+</div>
+</section>
+
+<section class="contact" id="contact">
+<div class="container">
+<div class="head"><h2>Contact AnasKabir Multiservices</h2><p>Get in touch for enquiries and service assistance.</p></div>
+<div class="contact-grid">
+<div class="contact-card">
+<div class="item">👤 <div><b>Proprietor</b><br>Imtiyaz Khan</div></div>
+<div class="item">📞 <div><b>Phone</b><br><a href="tel:+918600295143">+91 86002 95143</a></div></div>
+<div class="item">✉️ <div><b>Email</b><br><a href="mailto:anaskabirmultiservices@protonmail.com">anaskabirmultiservices@protonmail.com</a></div></div>
+<div class="item">📍 <div><b>Registered Address</b><br>Gauri Apartment, Pimple Gurav, Dapodi, Pune - 411061</div></div>
+</div>
+<div class="contact-card">
+<h2>Need assistance?</h2><p>Call or message us on WhatsApp for your insurance, banking or financial service enquiry.</p>
+<div class="buttons"><a class="btn primary" href="tel:+918600295143">📞 Call Now</a><a class="btn green" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a></div>
+</div>
+</div>
+</div>
+</section>
+
 </main>
 
 <footer>
- <div class="container footer-grid">
-  <div><strong>AnasKabir Multiservices</strong><br><small>Insurance • Banking • Financial Services</small></div>
-  <div><small>© <span id="year"></span> AnasKabir Multiservices. All rights reserved.</small></div>
- </div>
+<div class="container foot">
+<div><b>AnasKabir Multiservices</b><br><small>Insurance • Banking • Financial Services</small></div>
+<div><small>© <span id="year"></span> AnasKabir Multiservices. All rights reserved.</small></div>
+</div>
 </footer>
+
 <a class="float" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a>
+
 <script>
-function toggleMenu(){document.getElementById('navlinks').classList.toggle('open')}
-document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+function toggleMenu(){document.getElementById('nav').classList.toggle('show')}
 document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 </body>
