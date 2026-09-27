@@ -285,6 +285,47 @@ document.getElementById('year').textContent=new Date().getFullYear();
       <p id="attendanceMessage" style="margin-top:20px;"></p>
     </div>
   </div>
+  <!-- ATTENDANCE HISTORY -->
+
+
+<h2 style="margin-bottom:10px;">Attendance History</h2>
+
+<p style="color:#666;margin-bottom:20px;">
+View employee attendance records
+</p>
+
+<div style="overflow-x:auto;">
+<table style="width:100%;border-collapse:collapse;min-width:650px;">
+
+<thead>
+<tr style="background:#f3f4f6;">
+<th style="padding:12px;text-align:left;">Employee</th>
+<th style="padding:12px;text-align:left;">Date</th>
+<th style="padding:12px;text-align:left;">Check In</th>
+<th style="padding:12px;text-align:left;">Check Out</th>
+<th style="padding:12px;text-align:left;">Status</th>
+</tr>
+</thead>
+
+<tbody id="attendanceHistoryBody">
+
+<tr>
+<td colspan="5" style="padding:20px;text-align:center;color:#666;">
+Loading attendance...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<button onclick="loadAttendanceHistory()"
+style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;background:#111827;color:white;font-size:16px;">
+🔄 Refresh Attendance
+</button>
+
+</div>
 </section>
 </body>
 </html>
