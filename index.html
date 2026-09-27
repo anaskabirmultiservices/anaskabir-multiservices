@@ -252,5 +252,39 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 function toggleMenu(){document.getElementById('nav').classList.toggle('show')}
 document.getElementById('year').textContent=new Date().getFullYear();
 </script>
+<!-- ATTENDANCE SYSTEM -->
+<section id="attendance-system" style="padding:40px 20px;background:#f5f7ff;">
+  <div style="max-width:900px;margin:auto;">
+    <h2 style="font-size:32px;margin-bottom:10px;">
+      Employee Attendance
+    </h2>
+
+    <p style="color:#666;margin-bottom:25px;">
+      AnasKabir Multiservices Employee Attendance
+    </p>
+
+    <div style="background:white;padding:20px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);">
+      <label><b>Select Employee</b></label>
+
+      <select id="employeeSelect"
+        style="width:100%;padding:14px;margin:10px 0 20px;border:1px solid #ddd;border-radius:8px;">
+        <option value="">Select Employee</option>
+        <option value="c0ab6a7b-c450-431c-afaf-7e9...">
+          Imtiyaz Mubarak Khan
+        </option>
+        <option value="dc4c4...">
+          SEEMA IMTIYAZ KHAN
+        </option>
+      </select>
+
+      <button onclick="markAttendance()"
+        style="width:100%;padding:15px;background:#1769ff;color:white;border:0;border-radius:8px;font-size:17px;">
+        🟢 Mark Present
+      </button>
+
+      <p id="attendanceMessage" style="margin-top:20px;"></p>
+    </div>
+  </div>
+</section>
 </body>
 </html>
