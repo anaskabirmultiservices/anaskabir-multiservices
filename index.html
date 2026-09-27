@@ -327,5 +327,80 @@ style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;backg
 
 </div>
 </section>
+  </section>
+
+<script>
+function markAttendance() {
+    const employee = document.getElementById("employeeSelect").value;
+    const message = document.getElementById("attendanceMessage");
+
+    if (!employee) {
+        message.textContent = "Please select an employee.";
+        message.style.color = "red";
+        return;
+    }
+
+    const now = new Date();
+
+    let attendance = JSON.parse(
+        localStorage.getItem("attendanceRecords") || "[]"
+    );
+
+    attendance.push({
+        employee: employee,
+        date: now.toLocaleDateString("en-IN"),
+        checkIn: now.toLocaleTimeString("en-IN"),
+        checkOut: ""
+    });
+
+    localStorage.setItem(
+        "attendanceRecords",
+        JSON.stringify(attendance)
+    );
+
+    message.textContent = "✅ Attendance marked successfully!";
+    message.style.color = "green";
+
+    loadAttendanceHistory();
+}
+
+function loadAttendanceHistory() {
+    const body = document.getElementById("attendanceHistoryBody");
+
+    let attendance = JSON.parse(
+        localStorage.getItem("attendanceRecords") || "[]"
+    );
+
+    if (attendance.length === 0) {
+        body.innerHTML = `
+            <tr>
+                <td colspan="5" style="padding:20px;text-align:center;">
+                    No attendance records yet.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    body.innerHTML = attendance.map(function(record) {
+        return `
+            <tr>
+                <td style="padding:12px;">${record.date}</td>
+                <td style="padding:12px;">${record.checkIn}</td>
+                <td style="padding:12px;">${record.checkOut || "-"}</td>
+                <td style="padding:12px;">Present</td>
+                <td style="padding:12px;">${record.employee}</td>
+            </tr>
+        `;
+    }).join("");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadAttendanceHistory();
+});
+</script>
+
+</body>
+</html>
 </body>
 </html>
