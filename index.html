@@ -280,7 +280,15 @@ document.getElementById('year').textContent=new Date().getFullYear();
       <button onclick="markAttendance()"
         style="width:100%;padding:15px;background:#1769ff;color:white;border:0;border-radius:8px;font-size:17px;">
         🟢 Mark Present
-      </button>
+      </button><button type="button" onclick="checkInEmployee()"
+style="width:100%;padding:15px;background:#16a34a;color:white;border:none;border-radius:10px;margin-top:10px;font-size:18px;">
+🟢 Check In
+</button>
+
+<button type="button" onclick="checkOutEmployee()"
+style="width:100%;padding:15px;background:#dc2626;color:white;border:none;border-radius:10px;margin-top:10px;font-size:18px;">
+🔴 Check Out
+</button>
 
       <p id="attendanceMessage" style="margin-top:20px;"></p>
     </div>
@@ -330,74 +338,766 @@ style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;backg
   </section>
 
 <script>
+
+function getAttendanceRecords() {
+  return JSON.parse(
+    localStorage.getItem("attendanceRecords") || "[]"
+  );
+}
+
+function saveAttendanceRecords(records) {
+  localStorage.setItem(
+    "attendanceRecords",
+    JSON.stringify(records)
+  );
+}
+
+function getToday() {
+  return new Date().toLocaleDateString("en-IN");
+}
+
+function getCurrentTime() {
+  return new Date().toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+
+function getSelectedEmployee() {
+  const select = document.getElementById("employeeSelect");
+
+  if (!select || !select.value) {
+    return null;
+  }
+
+  return {
+    value: select.value,
+    name: select.options[select.selectedIndex].text
+  };
+}
+
+
+/* =========================
+   MARK PRESENT
+========================= */
+
+function markAttendance() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (existing) {
+    message.textContent =
+      "⚠️ Attendance already marked for today.";
+    message.style.color = "orange";
+    return;
+  }
+
+  attendance.push({
+    employee: employee.name,
+    date: today,
+    status: "Present",
+    checkIn: getCurrentTime(),
+    checkOut: ""
+  });
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "✅ Attendance marked successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   CHECK IN
+========================= */
+
+function checkInEmployee() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (existing) {
+
+    if (existing.checkIn) {
+      message.textContent =
+        "⚠️ Check In already recorded for today.";
+      message.style.color = "orange";
+      return;
+    }
+
+    existing.checkIn = getCurrentTime();
+    existing.status = "Present";
+
+  } else {
+
+    attendance.push({
+      employee: employee.name,
+      date: today,
+      status: "Present",
+      checkIn: getCurrentTime(),
+      checkOut: ""
+    });
+  }
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🟢 Check In recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   CHECK OUT
+========================= */
+
+function checkOutEmployee() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (!existing) {
+    message.textContent =
+      "⚠️ Please Check In first.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (!existing.checkIn) {
+    message.textContent =
+      "⚠️ Please Check In first.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (existing.checkOut) {
+    message.textContent =
+      "⚠️ Check Out already recorded.";
+    message.style.color = "orange";
+    return;
+  }
+
+  existing.checkOut = getCurrentTime();
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🔴 Check Out recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   ATTENDANCE HISTORY
+========================= */
+
+function loadAttendanceHistory() {
+
+  const body = document.getElementById("attendanceBody");
+
+  if (!body) {
+    return;
+  }
+
+  const attendance = getAttendanceRecords();
+
+  if (attendance.length === 0) {
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="5"
+            style="padding:12px;text-align:center;">
+          No attendance records found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML = attendance.map(function(record) {
+
+    return `
+      <tr>
+
+        <td style="padding:12px;">
+          ${record.date || ""}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.status || "Present"}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.employee || ""}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkIn || "-"}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkOut || "-"}
+        </td>
+
+      </tr>
+    `;
+
+  }).join("");
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadAttendanceHistory();
+});
+
+</script>
+
+function getAttendanceRecords() {
+  return JSON.parse(
+    localStorage.getItem("attendanceRecords") || "[]"
+  );
+}
+
+function saveAttendanceRecords(records) {
+  localStorage.setItem(
+    "attendanceRecords",
+    JSON.stringify(records)
+  );
+}
+
+function getToday() {
+  return new Date().toLocaleDateString("en-IN");
+}
+
+function getCurrentTime() {
+  return new Date().toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+
+function getSelectedEmployee() {
+  const select = document.getElementById("employeeSelect");
+
+  if (!select || !select.value) {
+    return null;
+  }
+
+  return {
+    value: select.value,
+    name: select.options[select.selectedIndex].text
+  };
+}
+
+
+/* =========================
+   MARK PRESENT
+========================= */
+
+function markAttendance() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (existing) {
+    message.textContent =
+      "⚠️ Attendance already marked for today.";
+    message.style.color = "orange";
+    return;
+  }
+
+  attendance.push({
+    employee: employee.name,
+    date: today,
+    status: "Present",
+    checkIn: getCurrentTime(),
+    checkOut: ""
+  });
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "✅ Attendance marked successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   CHECK IN
+========================= */
+
+function checkInEmployee() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (existing) {
+
+    if (existing.checkIn) {
+      message.textContent =
+        "⚠️ Check In already recorded for today.";
+      message.style.color = "orange";
+      return;
+    }
+
+    existing.checkIn = getCurrentTime();
+    existing.status = "Present";
+
+  } else {
+
+    attendance.push({
+      employee: employee.name,
+      date: today,
+      status: "Present",
+      checkIn: getCurrentTime(),
+      checkOut: ""
+    });
+  }
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🟢 Check In recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   CHECK OUT
+========================= */
+
+function checkOutEmployee() {
+
+  const employee = getSelectedEmployee();
+  const message = document.getElementById("attendanceMessage");
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee.name &&
+           record.date === today;
+  });
+
+  if (!existing) {
+    message.textContent =
+      "⚠️ Please Check In first.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (!existing.checkIn) {
+    message.textContent =
+      "⚠️ Please Check In first.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (existing.checkOut) {
+    message.textContent =
+      "⚠️ Check Out already recorded.";
+    message.style.color = "orange";
+    return;
+  }
+
+  existing.checkOut = getCurrentTime();
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🔴 Check Out recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+/* =========================
+   ATTENDANCE HISTORY
+========================= */
+
+function loadAttendanceHistory() {
+
+  const body = document.getElementById("attendanceBody");
+
+  if (!body) {
+    return;
+  }
+
+  const attendance = getAttendanceRecords();
+
+  if (attendance.length === 0) {
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="5"
+            style="padding:12px;text-align:center;">
+          No attendance records found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML = attendance.map(function(record) {
+
+    return `
+      <tr>
+
+        <td style="padding:12px;">
+          ${record.date || ""}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.status || "Present"}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.employee || ""}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkIn || "-"}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkOut || "-"}
+        </td>
+
+      </tr>
+    `;
+
+  }).join("");
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadAttendanceHistory();
+});
+
+</script>
 function markAttendance() {
     const employee = document.getElementById("employeeSelect").value;
     const message = document.getElementById("attendanceMessage");
 
-    if (!employee) {
-        message.textContent = "Please select an employee.";
-        message.style.color = "red";
-        return;
-    }
-
-    const now = new Date();
-
-  let attendance = JSON.parse(
+function getAttendanceRecords() {
+  return JSON.parse(
     localStorage.getItem("attendanceRecords") || "[]"
-);
-    attendance.push({
-        employee: employee,
-        date: now.toLocaleDateString("en-IN"),
-        checkIn: now.toLocaleTimeString("en-IN"),
-        checkOut: ""
-    });
-
-    localStorage.setItem(
-        "attendanceRecords",
-        JSON.stringify(attendance)
-    );
-
-    message.textContent = "✅ Attendance marked successfully!";
-    message.style.color = "green";
-
-    loadAttendanceHistory();
+  );
 }
+
+function saveAttendanceRecords(records) {
+  localStorage.setItem(
+    "attendanceRecords",
+    JSON.stringify(records)
+  );
+}
+
+function getToday() {
+  return new Date().toLocaleDateString("en-IN");
+}
+
+function getCurrentTime() {
+  return new Date().toLocaleTimeString("en-IN");
+}
+
+function markAttendance() {
+  const employeeSelect = document.getElementById("employeeSelect");
+  const message = document.getElementById("attendanceMessage");
+
+  const employee = employeeSelect.value;
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const alreadyMarked = attendance.find(function(record) {
+    return record.employee === employee &&
+           record.date === today;
+  });
+
+  if (alreadyMarked) {
+    message.textContent =
+      "⚠️ Attendance already marked for today.";
+    message.style.color = "orange";
+    return;
+  }
+
+  attendance.push({
+    employee: employee,
+    date: today,
+    checkIn: getCurrentTime(),
+    checkOut: ""
+  });
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "✅ Attendance marked successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+function checkInEmployee() {
+  const employeeSelect = document.getElementById("employeeSelect");
+  const message = document.getElementById("attendanceMessage");
+
+  const employee = employeeSelect.value;
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const existing = attendance.find(function(record) {
+    return record.employee === employee &&
+           record.date === today;
+  });
+
+  if (existing) {
+    message.textContent =
+      "⚠️ Check In already recorded today.";
+    message.style.color = "orange";
+    return;
+  }
+
+  attendance.push({
+    employee: employee,
+    date: today,
+    checkIn: getCurrentTime(),
+    checkOut: ""
+  });
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🟢 Check In recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+function checkOutEmployee() {
+  const employeeSelect = document.getElementById("employeeSelect");
+  const message = document.getElementById("attendanceMessage");
+
+  const employee = employeeSelect.value;
+
+  if (!employee) {
+    message.textContent = "⚠️ Please select an employee.";
+    message.style.color = "red";
+    return;
+  }
+
+  let attendance = getAttendanceRecords();
+  const today = getToday();
+
+  const record = attendance.find(function(record) {
+    return record.employee === employee &&
+           record.date === today;
+  });
+
+  if (!record) {
+    message.textContent =
+      "⚠️ No Check In found for today.";
+    message.style.color = "red";
+    return;
+  }
+
+  if (record.checkOut) {
+    message.textContent =
+      "⚠️ Check Out already recorded.";
+    message.style.color = "orange";
+    return;
+  }
+
+  record.checkOut = getCurrentTime();
+
+  saveAttendanceRecords(attendance);
+
+  message.textContent =
+    "🔴 Check Out recorded successfully!";
+  message.style.color = "green";
+
+  loadAttendanceHistory();
+}
+
+
+function refreshAttendance() {
+  loadAttendanceHistory();
+
+  const message = document.getElementById("attendanceMessage");
+
+  message.textContent =
+    "🔄 Attendance refreshed successfully!";
+  message.style.color = "green";
+}
+
 
 function loadAttendanceHistory() {
-    const body = document.getElementById("attendanceHistoryBody");
+  const body = document.getElementById("attendanceBody");
 
-    let attendance = JSON.parse(
-        localStorage.getItem("attendanceRecords") || "[]"
-    );
+  if (!body) {
+    return;
+  }
 
-    if (attendance.length === 0) {
-        body.innerHTML = `
-            <tr>
-                <td colspan="5" style="padding:20px;text-align:center;">
-                    No attendance records yet.
-                </td>
-            </tr>
-        `;
-        return;
-    }
+  const attendance = getAttendanceRecords();
 
-    body.innerHTML = attendance.map(function(record) {
-        return `
-            <tr>
-                <td style="padding:12px;">${record.date}</td>
-                <td style="padding:12px;">${record.checkIn}</td>
-                <td style="padding:12px;">${record.checkOut || "-"}</td>
-                <td style="padding:12px;">Present</td>
-                <td style="padding:12px;">${record.employee}</td>
-            </tr>
-        `;
-    }).join("");
+  if (attendance.length === 0) {
+    body.innerHTML = `
+      <tr>
+        <td colspan="5"
+            style="padding:12px;text-align:center;">
+          No attendance records
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  body.innerHTML = attendance.map(function(record) {
+    return `
+      <tr>
+        <td style="padding:12px;">
+          ${record.date}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkIn || "-"}
+        </td>
+
+        <td style="padding:12px;">
+          ${record.checkOut || "-"}
+        </td>
+
+        <td style="padding:12px;">
+          Present
+        </td>
+
+        <td style="padding:12px;">
+          ${record.employee}
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
+
 document.addEventListener("DOMContentLoaded", function() {
-    loadAttendanceHistory();
+  loadAttendanceHistory();
 });
-</script>
 
 </body>
 </html>
