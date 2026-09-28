@@ -442,14 +442,16 @@ function getAttendanceRecords() {
 
     } catch (error) {
 
-        console.error(error);
-
-        return [];
-    }
+/* REFRESH ATTENDANCE */
+if (text.includes("refresh")) {
+    event.preventDefault();
+    refreshAttendance();
+    return;
 }
 
-
 function refreshAttendance() {
+    loadAttendanceHistory();
+}
     window.location.reload();
 }
   function saveAttendanceRecords(records) {
