@@ -903,61 +903,66 @@ function refreshAttendance() {
    CONNECT BUTTONS
 ========================= */
 
+/* =========================================
+   CONNECT ATTENDANCE BUTTONS
+========================================= */
+
 function connectAttendanceButtons() {
 
-  const checkInButton =
-    document.getElementById("checkInButton") ||
-    document.querySelector('button[onclick*="checkInEmployee"]');
+    const buttons = document.querySelectorAll("button");
 
-  const checkOutButton =
-    document.getElementById("checkOutButton") ||
-    document.querySelector('button[onclick*="checkOutEmployee"]');
+    buttons.forEach(function(button) {
 
-  const markPresentButton =
-    document.getElementById("markPresentButton") ||
-    document.querySelector('button[onclick*="markAttendance"]');
+        const text = button.textContent.trim().toLowerCase();
 
-  const refreshButton =
-    document.getElementById("refreshAttendanceButton") ||
-    document.querySelector('button[onclick*="refreshAttendance"]');
+        /* CHECK IN */
+        if (text.includes("check in")) {
+            button.onclick = function(event) {
+                event.preventDefault();
+                checkInEmployee();
+            };
+        }
 
+        /* CHECK OUT */
+        else if (text.includes("check out")) {
+            button.onclick = function(event) {
+                event.preventDefault();
+                checkOutEmployee();
+            };
+        }
 
-  // CHECK IN
-  if (checkInButton) {
-    checkInButton.onclick = function(event) {
-      event.preventDefault();
-      checkInEmployee();
-    };
-  }
+        /* MARK PRESENT */
+        else if (text.includes("mark present")) {
+            button.onclick = function(event) {
+                event.preventDefault();
+                markAttendancePresent();
+            };
+        }
 
+        /* REFRESH ATTENDANCE */
+        else if (text.includes("refresh attendance")) {
+            button.onclick = function(event) {
+                event.preventDefault();
+                refreshAttendance();
+            };
+        }
 
-  // CHECK OUT
-  if (checkOutButton) {
-    checkOutButton.onclick = function(event) {
-      event.preventDefault();
-      checkOutEmployee();
-    };
-  }
-
-
-  // MARK PRESENT
-  if (markPresentButton) {
-    markPresentButton.onclick = function(event) {
-      event.preventDefault();
-      markAttendance();
-    };
-  }
-
-
-  // REFRESH ATTENDANCE
-  if (refreshButton) {
-    refreshButton.onclick = function(event) {
-      event.preventDefault();
-      refreshAttendance();
-    };
-  }
+    });
 }
 
 
-// CONNECT BUTTONS
-connectAttendanceButtons();
+/* =========================================
+   START BUTTON CONNECTION
+========================================= */
+
+if (document.readyState === "loading") {
+
+    document.addEventListener("DOMContentLoaded", function() {
+        connectAttendanceButtons();
+    });
+
+} else {
+
+    connectAttendanceButtons();
+
+}
