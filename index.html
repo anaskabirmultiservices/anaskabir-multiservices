@@ -913,7 +913,14 @@ function refreshAttendance() {
    ATTENDANCE BUTTON CONNECTION
    ===================================================== */
 
-document.addEventListener("click", function (event) {
+document.addEventListener("click", function(event) {
+    if (event.target.closest("button") &&
+        event.target.closest("button").innerText.includes("Refresh Attendance")) {
+        event.preventDefault();
+        window.location.reload();
+        return;
+    }
+}); document.addEventListener("click", function (event) {
 
     const button = event.target.closest("button");
 
@@ -952,7 +959,18 @@ document.addEventListener("click", function (event) {
     }
 
 });
-</script>
+document.addEventListener("click", function(event) {
+    const button = event.target.closest("button");
+
+    if (!button) return;
+
+    const text = button.textContent.trim().toLowerCase();
+
+    if (text.includes("refresh attendance")) {
+        event.preventDefault();
+        loadAttendanceHistory();
+    }
+});</script>
 
 </body>
 </html>
