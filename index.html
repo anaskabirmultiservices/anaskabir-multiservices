@@ -337,97 +337,264 @@ style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;backg
 </section>
   </section>
 
-<script>
+/* =========================================================
+   ATTENDANCE FUNCTIONS
+   ========================================================= */
 
-function getAttendanceRecords() {
-    return JSON.parse(
-        localStorage.getItem("attendanceRecords") || "[]"
-    );
-}
+/* =========================
+   DATE & TIME
+   ========================= */
 
-function saveAttendanceRecords(records) {
-    localStorage.setItem(
-        "attendanceRecords",
-        JSON.stringify(records)
-    );
-}
+function getCurrentDate() {
+    const now = new Date();
 
-function getToday() {
-    return new Date().toLocaleDateString("en-CA");
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+
+    return year + "-" + month + "-" + day;
 }
 
 function getCurrentTime() {
-    return new Date().toLocaleTimeString("en-IN", {
+    const now = new Date();
+
+    return now.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
-        second: "2-digit"
+        hour12: true
     });
 }
 
-function getSelectedEmployee() {
-    const select = document.getElementById("employeeSelect");
 
-    if (!select || !select.value) {
-        return "";
+/* =========================
+   ATTENDANCE STORAGE
+   ========================= */
+
+function getAttendanceRecords() {
+
+    try {
+
+        const saved =
+            localStorage.getItem("attendanceRecords");
+
+        if (!saved) {
+            return [];
+        }
+
+        const records = JSON.parse(saved);
+
+        if (!Array.isArray(records)) {
+            return [];
+        }
+
+        return records;
+
+    } catch (error) {
+
+        console.error(
+            "Attendance read error:",
+            error
+        );
+
+        return [];
     }
-
-    return select.value;
 }
 
-function showAttendanceMessage(text, color) {
-    const message = document.getElementById("attendanceMessage");
 
-    if (message) {
-        message.textContent = text;
-        message.style.color = color;
+function saveAttendanceRecords(records) {
+
+    try {
+
+        localStorage.setItem(
+            "attendanceRecords",
+            JSON.stringify(records)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Attendance save error:",
+            error
+        );
+
+        return false;
     }
 }
 
 
 /* =========================
+   SELECT EMPLOYEE
+   ========================= */
+
+function getSelectedEmployee() {
+
+    const employeeSelect =
+        document.getElementById(
+            "employeeSelect"
+        );
+
+    if (!employeeSelect) {
+        return "";
+    }
+
+    return employeeSelect.value || "";
+}
+
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+function showAttendanceMessage(
+    message,
+    color
+) {
+
+    let messageBox =
+        document.getElementById(
+            "attendanceMessage"
+        );
+
+    if (!messageBox) {
+
+        messageBox =
+            document.createElement("div");
+
+        messageBox.id =
+            "attendanceMessage";
+
+        messageBox.style.padding =
+            "12px";
+
+        messageBox.style.margin =
+            "10px 0";
+
+        messageBox.style.borderRadius =
+            "8px";
+
+        messageBox.style.textAlign =
+            "center";
+
+        messageBox.style.fontWeight =
+            "600";
+
+        const select =
+            document.getElementById(
+                "employeeSelect"
+            );
+
+        if (
+            select &&
+            select.parentNode
+        ) {
+
+            select.parentNode.insertBefore(
+                messageBox,
+                select.nextSibling
+            );
+
+        } else {
+
+            document.body.prepend(
+                messageBox
+            );
+        }
+    }
+
+    messageBox.textContent =
+        message;
+
+    messageBox.style.color =
+        color === "green"
+            ? "#087f23"
+            : "#c62828";
+
+    messageBox.style.background =
+        color === "green"
+            ? "#e8f5e9"
+            : "#ffebee";
+
+    setTimeout(function () {
+
+        if (messageBox) {
+            messageBox.textContent = "";
+        }
+
+    }, 3000);
+}
+
+
+/* =========================================================
    MARK PRESENT
-========================= */
+   ========================================================= */
 
-function markAttendance() {
+function markPresent() {
 
-    const employee = getSelectedEmployee();
+    const employee =
+        getSelectedEmployee();
 
     if (!employee) {
+
         showAttendanceMessage(
             "⚠️ Please select an employee.",
             "red"
         );
+
         return;
     }
 
-    let attendance = getAttendanceRecords();
-    const today = getToday();
+    const attendance =
+        getAttendanceRecords();
 
-    const existing = attendance.find(function(record) {
-        return record.employee === employee &&
-               record.date === today;
-    });
+    const today =
+        getCurrentDate();
+
+    const existing =
+        attendance.find(function(record) {
+
+            return (
+                record.employee === employee &&
+                record.date === today
+            );
+
+        });
 
     if (existing) {
+
         showAttendanceMessage(
             "⚠️ Attendance already marked for today.",
-            "orange"
+            "red"
         );
+
         return;
     }
 
     attendance.push({
+
         employee: employee,
+
         date: today,
+
         status: "Present",
-        checkIn: getCurrentTime(),
+
+        checkIn: "",
+
         checkOut: ""
+
     });
 
-    saveAttendanceRecords(attendance);
+    if (
+        !saveAttendanceRecords(
+            attendance
+        )
+    ) {
+        return;
+    }
 
     showAttendanceMessage(
-        "✅ Attendance marked successfully!",
+        "🟢 Attendance marked successfully!",
         "green"
     );
 
@@ -435,55 +602,96 @@ function markAttendance() {
 }
 
 
-/* =========================
+/* =========================================================
    CHECK IN
-========================= */
+   ========================================================= */
 
 function checkInEmployee() {
 
-    const employee = getSelectedEmployee();
+    const employee =
+        getSelectedEmployee();
 
     if (!employee) {
+
         showAttendanceMessage(
             "⚠️ Please select an employee.",
             "red"
         );
+
         return;
     }
 
-    let attendance = getAttendanceRecords();
-    const today = getToday();
+    const attendance =
+        getAttendanceRecords();
 
-    const existing = attendance.find(function(record) {
-        return record.employee === employee &&
-               record.date === today;
-    });
+    const today =
+        getCurrentDate();
 
-    if (existing) {
+    const currentTime =
+        getCurrentTime();
 
-        if (existing.checkIn) {
-            showAttendanceMessage(
-                "⚠️ Check In already recorded today.",
-                "orange"
+    let record =
+        attendance.find(function(item) {
+
+            return (
+                item.employee === employee &&
+                item.date === today
             );
-            return;
-        }
 
-        existing.checkIn = getCurrentTime();
-        existing.status = "Present";
+        });
+
+
+    /* If there is no record,
+       create one */
+
+    if (!record) {
+
+        record = {
+
+            employee: employee,
+
+            date: today,
+
+            status: "Present",
+
+            checkIn: currentTime,
+
+            checkOut: ""
+
+        };
+
+        attendance.push(record);
 
     } else {
 
-        attendance.push({
-            employee: employee,
-            date: today,
-            status: "Present",
-            checkIn: getCurrentTime(),
-            checkOut: ""
-        });
+        /* Already checked in */
+
+        if (record.checkIn) {
+
+            showAttendanceMessage(
+                "⚠️ Check In already recorded.",
+                "red"
+            );
+
+            return;
+        }
+
+        record.checkIn =
+            currentTime;
+
+        record.status =
+            "Present";
     }
 
-    saveAttendanceRecords(attendance);
+
+    if (
+        !saveAttendanceRecords(
+            attendance
+        )
+    ) {
+        return;
+    }
+
 
     showAttendanceMessage(
         "🟢 Check In recorded successfully!",
@@ -494,57 +702,93 @@ function checkInEmployee() {
 }
 
 
-/* =========================
+/* =========================================================
    CHECK OUT
-========================= */
+   ========================================================= */
 
 function checkOutEmployee() {
 
-    const employee = getSelectedEmployee();
+    const employee =
+        getSelectedEmployee();
 
     if (!employee) {
+
         showAttendanceMessage(
             "⚠️ Please select an employee.",
             "red"
         );
+
         return;
     }
 
-    let attendance = getAttendanceRecords();
-    const today = getToday();
+    const attendance =
+        getAttendanceRecords();
 
-    const record = attendance.find(function(item) {
-        return item.employee === employee &&
-               item.date === today;
-    });
+    const today =
+        getCurrentDate();
+
+    const currentTime =
+        getCurrentTime();
+
+    const record =
+        attendance.find(function(item) {
+
+            return (
+                item.employee === employee &&
+                item.date === today
+            );
+
+        });
+
 
     if (!record) {
+
         showAttendanceMessage(
             "⚠️ Please Check In first.",
             "red"
         );
+
         return;
     }
+
 
     if (!record.checkIn) {
+
         showAttendanceMessage(
             "⚠️ Please Check In first.",
             "red"
         );
+
         return;
     }
+
 
     if (record.checkOut) {
+
         showAttendanceMessage(
             "⚠️ Check Out already recorded.",
-            "orange"
+            "red"
         );
+
         return;
     }
 
-    record.checkOut = getCurrentTime();
 
-    saveAttendanceRecords(attendance);
+    record.checkOut =
+        currentTime;
+
+    record.status =
+        "Present";
+
+
+    if (
+        !saveAttendanceRecords(
+            attendance
+        )
+    ) {
+        return;
+    }
+
 
     showAttendanceMessage(
         "🔴 Check Out recorded successfully!",
@@ -555,97 +799,265 @@ function checkOutEmployee() {
 }
 
 
-/* =========================
+/* =========================================================
+   ATTENDANCE HISTORY
+   ========================================================= */
+
+function loadAttendanceHistory() {
+
+    const body =
+        document.getElementById(
+            "attendanceBody"
+        );
+
+
+    if (!body) {
+
+        console.error(
+            "attendanceBody not found."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const attendance =
+            getAttendanceRecords();
+
+
+        if (
+            !Array.isArray(attendance) ||
+            attendance.length === 0
+        ) {
+
+            body.innerHTML = `
+                <tr>
+                    <td
+                        colspan="5"
+                        style="
+                            padding:20px;
+                            text-align:center;
+                        "
+                    >
+                        No attendance records found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        body.innerHTML =
+            attendance
+                .slice()
+                .reverse()
+                .map(function(record) {
+
+                    return `
+                        <tr>
+
+                            <td
+                                style="
+                                    padding:12px;
+                                "
+                            >
+                                ${
+                                    record.employee ||
+                                    "-"
+                                }
+                            </td>
+
+                            <td
+                                style="
+                                    padding:12px;
+                                "
+                            >
+                                ${
+                                    record.date ||
+                                    "-"
+                                }
+                            </td>
+
+                            <td
+                                style="
+                                    padding:12px;
+                                "
+                            >
+                                ${
+                                    record.checkIn ||
+                                    "-"
+                                }
+                            </td>
+
+                            <td
+                                style="
+                                    padding:12px;
+                                "
+                            >
+                                ${
+                                    record.checkOut ||
+                                    "-"
+                                }
+                            </td>
+
+                            <td
+                                style="
+                                    padding:12px;
+                                "
+                            >
+                                ${
+                                    record.checkOut
+                                        ? "Present"
+                                        : record.checkIn
+                                        ? "Checked In"
+                                        : "Present"
+                                }
+                            </td>
+
+                        </tr>
+                    `;
+
+                })
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Attendance history error:",
+            error
+        );
+
+        body.innerHTML = `
+            <tr>
+                <td
+                    colspan="5"
+                    style="
+                        padding:20px;
+                        text-align:center;
+                        color:red;
+                    "
+                >
+                    Error loading attendance records.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+/* =========================================================
    REFRESH ATTENDANCE
-========================= */
+   ========================================================= */
 
 function refreshAttendance() {
 
     loadAttendanceHistory();
 
     showAttendanceMessage(
-        "🔄 Attendance refreshed successfully!",
+        "🔄 Attendance refreshed.",
         "green"
     );
 }
 
 
-/* =========================
-   ATTENDANCE HISTORY
-========================= */
+/* =========================================================
+   BUTTON CONNECTION
+   ========================================================= */
 
-function loadAttendanceHistory() {
+function connectAttendanceButtons() {
 
-    const body =
-        document.getElementById("attendanceBody");
+    const buttons =
+        document.querySelectorAll(
+            "button"
+        );
 
-    if (!body) {
-        return;
-    }
 
-    const attendance = getAttendanceRecords();
+    buttons.forEach(function(button) {
 
-    if (attendance.length === 0) {
+        const text =
+            button.textContent
+                .trim()
+                .toLowerCase();
 
-        body.innerHTML = `
-            <tr>
-                <td colspan="5"
-                    style="padding:12px;text-align:center;">
-                    No attendance records found.
-                </td>
-            </tr>
-        `;
 
-        return;
-    }
+        /* Mark Present */
 
-    body.innerHTML = attendance
-        .slice()
-        .reverse()
-        .map(function(record) {
+        if (
+            text.includes(
+                "mark present"
+            )
+        ) {
 
-            return `
-                <tr>
+            button.onclick =
+                markPresent;
+        }
 
-                    <td style="padding:12px;">
-                        ${record.employee || ""}
-                    </td>
 
-                    <td style="padding:12px;">
-                        ${record.date || ""}
-                    </td>
+        /* Check In */
 
-                    <td style="padding:12px;">
-                        ${record.checkIn || "-"}
-                    </td>
+        if (
+            text.includes(
+                "check in"
+            )
+        ) {
 
-                    <td style="padding:12px;">
-                        ${record.checkOut || "-"}
-                    </td>
+            button.onclick =
+                checkInEmployee;
+        }
 
-                    <td style="padding:12px;">
-                        ${record.checkOut ? "Present" : "Checked In"}
-                    </td>
 
-                </tr>
-            `;
+        /* Check Out */
 
-        })
-        .join("");
+        if (
+            text.includes(
+                "check out"
+            )
+        ) {
+
+            button.onclick =
+                checkOutEmployee;
+        }
+
+
+        /* Refresh Attendance */
+
+        if (
+            text.includes(
+                "refresh attendance"
+            ) ||
+            text.includes(
+                "refresh"
+            )
+        ) {
+
+            button.onclick =
+                refreshAttendance;
+        }
+
+    });
 }
 
 
-/* =========================
+/* =========================================================
    PAGE LOAD
-========================= */
+   ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
+
         loadAttendanceHistory();
+
+        connectAttendanceButtons();
+
     }
 );
 
-</script>
-</body>
-</html>
+
+/* =========================================================
+   END OF SCRIPT
+   ========================================================= */
