@@ -903,66 +903,46 @@ function refreshAttendance() {
    CONNECT BUTTONS
 ========================= */
 
-/* =========================================
-   CONNECT ATTENDANCE BUTTONS
-========================================= */
+/* =====================================================
+   ATTENDANCE BUTTON CONNECTION
+   ===================================================== */
 
-function connectAttendanceButtons() {
+document.addEventListener("click", function (event) {
 
-    const buttons = document.querySelectorAll("button");
+    const button = event.target.closest("button");
 
-    buttons.forEach(function(button) {
+    if (!button) {
+        return;
+    }
 
-        const text = button.textContent.trim().toLowerCase();
+    const text = button.textContent.trim().toLowerCase();
 
-        /* CHECK IN */
-        if (text.includes("check in")) {
-            button.onclick = function(event) {
-                event.preventDefault();
-                checkInEmployee();
-            };
-        }
+    /* CHECK IN */
+    if (text.includes("check in")) {
+        event.preventDefault();
+        checkInEmployee();
+        return;
+    }
 
-        /* CHECK OUT */
-        else if (text.includes("check out")) {
-            button.onclick = function(event) {
-                event.preventDefault();
-                checkOutEmployee();
-            };
-        }
+    /* CHECK OUT */
+    if (text.includes("check out")) {
+        event.preventDefault();
+        checkOutEmployee();
+        return;
+    }
 
-        /* MARK PRESENT */
-        else if (text.includes("mark present")) {
-            button.onclick = function(event) {
-                event.preventDefault();
-                markAttendancePresent();
-            };
-        }
+    /* MARK PRESENT */
+    if (text.includes("mark present")) {
+        event.preventDefault();
+        markAttendancePresent();
+        return;
+    }
 
-        /* REFRESH ATTENDANCE */
-        else if (text.includes("refresh attendance")) {
-            button.onclick = function(event) {
-                event.preventDefault();
-                refreshAttendance();
-            };
-        }
+    /* REFRESH ATTENDANCE */
+    if (text.includes("refresh attendance")) {
+        event.preventDefault();
+        refreshAttendance();
+        return;
+    }
 
-    });
-}
-
-
-/* =========================================
-   START BUTTON CONNECTION
-========================================= */
-
-if (document.readyState === "loading") {
-
-    document.addEventListener("DOMContentLoaded", function() {
-        connectAttendanceButtons();
-    });
-
-} else {
-
-    connectAttendanceButtons();
-
-}
+});
