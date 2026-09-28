@@ -342,10 +342,9 @@ function markAttendance() {
 
     const now = new Date();
 
-    let attendance = JSON.parse(
-        localStorage.getItem("attendanceRecords") || "[]"
-    );
-
+  let attendance = JSON.parse(
+    localStorage.getItem("attendanceRecords") || "[]"
+);
     attendance.push({
         employee: employee,
         date: now.toLocaleDateString("en-IN"),
