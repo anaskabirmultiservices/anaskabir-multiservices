@@ -337,64 +337,111 @@ style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;backg
 </section>
   </section>
 
-/* =========================================================
-   ATTENDANCE FUNCTIONS
-   ========================================================= */
+<script>
 
 /* =========================
-   DATE & TIME
-   ========================= */
+   ATTENDANCE FUNCTIONS
+========================= */
 
+/* DATE */
 function getCurrentDate() {
     const now = new Date();
-
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const day = String(now.getDate()).padStart(2, "0");
 
-    return year + "-" + month + "-" + day;
+    return ${year}-${month}-${day};
 }
 
+
+/* TIME */
 function getCurrentTime() {
     const now = new Date();
 
-    return now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true
-    });
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    return ${hours}:${minutes}:${seconds};
 }
 
 
-/* =========================
-   ATTENDANCE STORAGE
-   ========================= */
+/* MESSAGE */
+function showAttendanceMessage(message, type) {
 
+    let box = document.getElementById("attendanceMessage");
+
+    if (!box) {
+        box = document.createElement("div");
+        box.id = "attendanceMessage";
+
+        box.style.position = "fixed";
+        box.style.top = "80px";
+        box.style.left = "50%";
+        box.style.transform = "translateX(-50%)";
+        box.style.zIndex = "99999";
+        box.style.padding = "14px 22px";
+        box.style.borderRadius = "10px";
+        box.style.color = "white";
+        box.style.fontWeight = "600";
+        box.style.textAlign = "center";
+
+        document.body.appendChild(box);
+    }
+
+    box.textContent = message;
+
+    if (type === "red") {
+        box.style.background = "#dc2626";
+    } else if (type === "orange") {
+        box.style.background = "#f59e0b";
+    } else {
+        box.style.background = "#16a34a";
+    }
+
+    box.style.display = "block";
+
+    setTimeout(function () {
+        box.style.display = "none";
+    }, 3000);
+}
+
+
+/* GET EMPLOYEE */
+function getSelectedEmployee() {
+
+    const select =
+        document.getElementById("attendanceEmployee") ||
+        document.getElementById("employeeSelect") ||
+        document.querySelector('select[name="employee"]');
+
+    if (!select) {
+        return null;
+    }
+
+    return select.value;
+}
+
+
+/* ATTENDANCE STORAGE */
 function getAttendanceRecords() {
 
     try {
 
-        const saved =
-            localStorage.getItem("attendanceRecords");
+        const data =
+            localStorage.getItem("anasKabirAttendance");
 
-        if (!saved) {
+        if (!data) {
             return [];
         }
 
-        const records = JSON.parse(saved);
+        const records = JSON.parse(data);
 
-        if (!Array.isArray(records)) {
-            return [];
-        }
-
-        return records;
+        return Array.isArray(records) ? records : [];
 
     } catch (error) {
 
-        console.error(
-            "Attendance read error:",
-            error
-        );
+        console.error(error);
 
         return [];
     }
@@ -406,7 +453,7 @@ function saveAttendanceRecords(records) {
     try {
 
         localStorage.setItem(
-            "attendanceRecords",
+            "anasKabirAttendance",
             JSON.stringify(records)
         );
 
@@ -414,197 +461,38 @@ function saveAttendanceRecords(records) {
 
     } catch (error) {
 
-        console.error(
-            "Attendance save error:",
-            error
-        );
+        console.error(error);
 
         return false;
     }
 }
 
 
-/* =========================
-   SELECT EMPLOYEE
-   ========================= */
+/* EMPLOYEE NAME */
+function getEmployeeName(employee) {
 
-function getSelectedEmployee() {
+    const select =
+        document.getElementById("attendanceEmployee") ||
+        document.getElementById("employeeSelect") ||
+        document.querySelector('select[name="employee"]');
 
-    const employeeSelect =
-        document.getElementById(
-            "employeeSelect"
-        );
+    if (select) {
 
-    if (!employeeSelect) {
-        return "";
-    }
+        const option =
+            select.options[select.selectedIndex];
 
-    return employeeSelect.value || "";
-}
-
-
-/* =========================
-   MESSAGE
-   ========================= */
-
-function showAttendanceMessage(
-    message,
-    color
-) {
-
-    let messageBox =
-        document.getElementById(
-            "attendanceMessage"
-        );
-
-    if (!messageBox) {
-
-        messageBox =
-            document.createElement("div");
-
-        messageBox.id =
-            "attendanceMessage";
-
-        messageBox.style.padding =
-            "12px";
-
-        messageBox.style.margin =
-            "10px 0";
-
-        messageBox.style.borderRadius =
-            "8px";
-
-        messageBox.style.textAlign =
-            "center";
-
-        messageBox.style.fontWeight =
-            "600";
-
-        const select =
-            document.getElementById(
-                "employeeSelect"
-            );
-
-        if (
-            select &&
-            select.parentNode
-        ) {
-
-            select.parentNode.insertBefore(
-                messageBox,
-                select.nextSibling
-            );
-
-        } else {
-
-            document.body.prepend(
-                messageBox
-            );
+        if (option && option.textContent) {
+            return option.textContent.trim();
         }
     }
 
-    messageBox.textContent =
-        message;
-
-    messageBox.style.color =
-        color === "green"
-            ? "#087f23"
-            : "#c62828";
-
-    messageBox.style.background =
-        color === "green"
-            ? "#e8f5e9"
-            : "#ffebee";
-
-    setTimeout(function () {
-
-        if (messageBox) {
-            messageBox.textContent = "";
-        }
-
-    }, 3000);
+    return employee;
 }
 
 
-/* =========================================================
-   MARK PRESENT
-   ========================================================= */
-
-function markPresent() {
-
-    const employee =
-        getSelectedEmployee();
-
-    if (!employee) {
-
-        showAttendanceMessage(
-            "⚠️ Please select an employee.",
-            "red"
-        );
-
-        return;
-    }
-
-    const attendance =
-        getAttendanceRecords();
-
-    const today =
-        getCurrentDate();
-
-    const existing =
-        attendance.find(function(record) {
-
-            return (
-                record.employee === employee &&
-                record.date === today
-            );
-
-        });
-
-    if (existing) {
-
-        showAttendanceMessage(
-            "⚠️ Attendance already marked for today.",
-            "red"
-        );
-
-        return;
-    }
-
-    attendance.push({
-
-        employee: employee,
-
-        date: today,
-
-        status: "Present",
-
-        checkIn: "",
-
-        checkOut: ""
-
-    });
-
-    if (
-        !saveAttendanceRecords(
-            attendance
-        )
-    ) {
-        return;
-    }
-
-    showAttendanceMessage(
-        "🟢 Attendance marked successfully!",
-        "green"
-    );
-
-    loadAttendanceHistory();
-}
-
-
-/* =========================================================
+/* =========================
    CHECK IN
-   ========================================================= */
+========================= */
 
 function checkInEmployee() {
 
@@ -614,62 +502,39 @@ function checkInEmployee() {
     if (!employee) {
 
         showAttendanceMessage(
-            "⚠️ Please select an employee.",
+            "Please select an employee.",
             "red"
         );
 
         return;
     }
 
-    const attendance =
-        getAttendanceRecords();
-
     const today =
         getCurrentDate();
 
-    const currentTime =
-        getCurrentTime();
+    const attendance =
+        getAttendanceRecords();
 
-    let record =
-        attendance.find(function(item) {
+    const existingIndex =
+        attendance.findIndex(function(record) {
 
             return (
-                item.employee === employee &&
-                item.date === today
+                String(record.employee) === String(employee) &&
+                record.date === today
             );
 
         });
 
 
-    /* If there is no record,
-       create one */
+    if (existingIndex !== -1) {
 
-    if (!record) {
-
-        record = {
-
-            employee: employee,
-
-            date: today,
-
-            status: "Present",
-
-            checkIn: currentTime,
-
-            checkOut: ""
-
-        };
-
-        attendance.push(record);
-
-    } else {
-
-        /* Already checked in */
+        const record =
+            attendance[existingIndex];
 
         if (record.checkIn) {
 
             showAttendanceMessage(
-                "⚠️ Check In already recorded.",
+                "Employee is already checked in.",
                 "red"
             );
 
@@ -677,18 +542,40 @@ function checkInEmployee() {
         }
 
         record.checkIn =
-            currentTime;
+            getCurrentTime();
 
         record.status =
             "Present";
+
+    } else {
+
+        attendance.push({
+
+            employee: employee,
+
+            employeeName:
+                getEmployeeName(employee),
+
+            date: today,
+
+            checkIn:
+                getCurrentTime(),
+
+            checkOut: "",
+
+            status: "Present"
+
+        });
     }
 
 
-    if (
-        !saveAttendanceRecords(
-            attendance
-        )
-    ) {
+    if (!saveAttendanceRecords(attendance)) {
+
+        showAttendanceMessage(
+            "Unable to save Check In.",
+            "red"
+        );
+
         return;
     }
 
@@ -702,9 +589,9 @@ function checkInEmployee() {
 }
 
 
-/* =========================================================
+/* =========================
    CHECK OUT
-   ========================================================= */
+========================= */
 
 function checkOutEmployee() {
 
@@ -714,37 +601,36 @@ function checkOutEmployee() {
     if (!employee) {
 
         showAttendanceMessage(
-            "⚠️ Please select an employee.",
+            "Please select an employee.",
             "red"
         );
 
         return;
     }
 
-    const attendance =
-        getAttendanceRecords();
 
     const today =
         getCurrentDate();
 
-    const currentTime =
-        getCurrentTime();
+    const attendance =
+        getAttendanceRecords();
 
-    const record =
-        attendance.find(function(item) {
+
+    const existingIndex =
+        attendance.findIndex(function(record) {
 
             return (
-                item.employee === employee &&
-                item.date === today
+                String(record.employee) === String(employee) &&
+                record.date === today
             );
 
         });
 
 
-    if (!record) {
+    if (existingIndex === -1) {
 
         showAttendanceMessage(
-            "⚠️ Please Check In first.",
+            "Employee has not checked in today.",
             "red"
         );
 
@@ -752,10 +638,14 @@ function checkOutEmployee() {
     }
 
 
+    const record =
+        attendance[existingIndex];
+
+
     if (!record.checkIn) {
 
         showAttendanceMessage(
-            "⚠️ Please Check In first.",
+            "Employee has not checked in today.",
             "red"
         );
 
@@ -766,7 +656,7 @@ function checkOutEmployee() {
     if (record.checkOut) {
 
         showAttendanceMessage(
-            "⚠️ Check Out already recorded.",
+            "Employee is already checked out.",
             "red"
         );
 
@@ -775,17 +665,20 @@ function checkOutEmployee() {
 
 
     record.checkOut =
-        currentTime;
+        getCurrentTime();
+
 
     record.status =
         "Present";
 
 
-    if (
-        !saveAttendanceRecords(
-            attendance
-        )
-    ) {
+    if (!saveAttendanceRecords(attendance)) {
+
+        showAttendanceMessage(
+            "Unable to save Check Out.",
+            "red"
+        );
+
         return;
     }
 
@@ -795,269 +688,323 @@ function checkOutEmployee() {
         "green"
     );
 
+
     loadAttendanceHistory();
 }
 
 
-/* =========================================================
-   ATTENDANCE HISTORY
-   ========================================================= */
+/* =========================
+   MARK PRESENT
+========================= */
 
-function loadAttendanceHistory() {
+function markAttendancePresent() {
 
-    const body =
-        document.getElementById(
-            "attendanceBody"
-        );
+    const employee =
+        getSelectedEmployee();
 
+    if (!employee) {
 
-    if (!body) {
-
-        console.error(
-            "attendanceBody not found."
+        showAttendanceMessage(
+            "Please select an employee.",
+            "red"
         );
 
         return;
     }
 
 
-    try {
+    const today =
+        getCurrentDate();
 
-        const attendance =
-            getAttendanceRecords();
-
-
-        if (
-            !Array.isArray(attendance) ||
-            attendance.length === 0
-        ) {
-
-            body.innerHTML = `
-                <tr>
-                    <td
-                        colspan="5"
-                        style="
-                            padding:20px;
-                            text-align:center;
-                        "
-                    >
-                        No attendance records found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
+    const attendance =
+        getAttendanceRecords();
 
 
-        body.innerHTML =
-            attendance
-                .slice()
-                .reverse()
-                .map(function(record) {
+    const existingIndex =
+        attendance.findIndex(function(record) {
 
-                    return `
-                        <tr>
+            return (
+                String(record.employee) === String(employee) &&
+                record.date === today
+            );
 
-                            <td
-                                style="
-                                    padding:12px;
-                                "
-                            >
-                                ${
-                                    record.employee ||
-                                    "-"
-                                }
-                            </td>
-
-                            <td
-                                style="
-                                    padding:12px;
-                                "
-                            >
-                                ${
-                                    record.date ||
-                                    "-"
-                                }
-                            </td>
-
-                            <td
-                                style="
-                                    padding:12px;
-                                "
-                            >
-                                ${
-                                    record.checkIn ||
-                                    "-"
-                                }
-                            </td>
-
-                            <td
-                                style="
-                                    padding:12px;
-                                "
-                            >
-                                ${
-                                    record.checkOut ||
-                                    "-"
-                                }
-                            </td>
-
-                            <td
-                                style="
-                                    padding:12px;
-                                "
-                            >
-                                ${
-                                    record.checkOut
-                                        ? "Present"
-                                        : record.checkIn
-                                        ? "Checked In"
-                                        : "Present"
-                                }
-                            </td>
-
-                        </tr>
-                    `;
-
-                })
-                .join("");
+        });
 
 
-    } catch (error) {
+    if (existingIndex !== -1) {
 
-        console.error(
-            "Attendance history error:",
-            error
+        showAttendanceMessage(
+            "Attendance already marked for today.",
+            "orange"
         );
 
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="5"
-                    style="
-                        padding:20px;
-                        text-align:center;
-                        color:red;
-                    "
-                >
-                    Error loading attendance records.
-                </td>
-            </tr>
-        `;
+        return;
     }
+
+
+    attendance.push({
+
+        employee: employee,
+
+        employeeName:
+            getEmployeeName(employee),
+
+        date: today,
+
+        checkIn: "",
+
+        checkOut: "",
+
+        status: "Present"
+
+    });
+
+
+    if (!saveAttendanceRecords(attendance)) {
+
+        showAttendanceMessage(
+            "Unable to save attendance.",
+            "red"
+        );
+
+        return;
+    }
+
+
+    showAttendanceMessage(
+        "🟢 Attendance marked Present.",
+        "green"
+    );
+
+
+    loadAttendanceHistory();
 }
 
 
-/* =========================================================
+/* =========================
+   LOAD ATTENDANCE HISTORY
+========================= */
+
+function loadAttendanceHistory() {
+
+    const tbody =
+        document.querySelector(
+            "#attendanceHistory tbody"
+        ) ||
+        document.querySelector(
+            "#attendanceTable tbody"
+        );
+
+
+    if (!tbody) {
+
+        console.warn(
+            "Attendance table not found."
+        );
+
+        return;
+    }
+
+
+    const attendance =
+        getAttendanceRecords();
+
+
+    tbody.innerHTML = "";
+
+
+    if (attendance.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    style="text-align:center;padding:20px;">
+                    No attendance records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    attendance.sort(function(a, b) {
+
+        const dateA =
+            ${a.date || ""} ${a.checkIn || ""};
+
+        const dateB =
+            ${b.date || ""} ${b.checkIn || ""};
+
+        return dateB.localeCompare(dateA);
+
+    });
+
+
+    attendance.forEach(function(record) {
+
+        const row =
+            document.createElement("tr");
+
+
+        const employeeName =
+            record.employeeName ||
+            record.employee ||
+            "-";
+
+
+        row.innerHTML = `
+
+            <td style="padding:10px;">
+                ${employeeName}
+            </td>
+
+            <td style="padding:10px;">
+                ${record.date || "-"}
+            </td>
+
+            <td style="padding:10px;">
+                ${record.checkIn || "-"}
+            </td>
+
+            <td style="padding:10px;">
+                ${record.checkOut || "-"}
+            </td>
+
+            <td style="padding:10px;">
+                ${record.status || "Present"}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+}
+
+
+/* =========================
    REFRESH ATTENDANCE
-   ========================================================= */
+========================= */
 
 function refreshAttendance() {
 
     loadAttendanceHistory();
 
     showAttendanceMessage(
-        "🔄 Attendance refreshed.",
+        "Attendance refreshed successfully.",
         "green"
     );
 }
 
 
-/* =========================================================
-   BUTTON CONNECTION
-   ========================================================= */
+/* =========================
+   CONNECT BUTTONS
+========================= */
 
 function connectAttendanceButtons() {
 
-    const buttons =
-        document.querySelectorAll(
-            "button"
+    const checkInButton =
+        document.getElementById("checkInButton") ||
+        document.querySelector(
+            'button[onclick*="checkInEmployee"]'
         );
 
 
-    buttons.forEach(function(button) {
+    if (checkInButton) {
 
-        const text =
-            button.textContent
-                .trim()
-                .toLowerCase();
+        checkInButton.onclick =
+            function(event) {
 
+                event.preventDefault();
 
-        /* Mark Present */
+                checkInEmployee();
 
-        if (
-            text.includes(
-                "mark present"
-            )
-        ) {
-
-            button.onclick =
-                markPresent;
-        }
+            };
+    }
 
 
-        /* Check In */
-
-        if (
-            text.includes(
-                "check in"
-            )
-        ) {
-
-            button.onclick =
-                checkInEmployee;
-        }
+    const checkOutButton =
+        document.getElementById("checkOutButton") ||
+        document.querySelector(
+            'button[onclick*="checkOutEmployee"]'
+        );
 
 
-        /* Check Out */
+    if (checkOutButton) {
 
-        if (
-            text.includes(
-                "check out"
-            )
-        ) {
+        checkOutButton.onclick =
+            function(event) {
 
-            button.onclick =
-                checkOutEmployee;
-        }
+                event.preventDefault();
+
+                checkOutEmployee();
+
+            };
+    }
 
 
-        /* Refresh Attendance */
+    const presentButton =
+        document.getElementById("markPresentButton") ||
+        document.querySelector(
+            'button[onclick*="markAttendancePresent"]'
+        );
 
-        if (
-            text.includes(
-                "refresh attendance"
-            ) ||
-            text.includes(
-                "refresh"
-            )
-        ) {
 
-            button.onclick =
-                refreshAttendance;
-        }
+    if (presentButton) {
 
-    });
+        presentButton.onclick =
+            function(event) {
+
+                event.preventDefault();
+
+                markAttendancePresent();
+
+            };
+    }
+
+
+    const refreshButton =
+        document.getElementById("refreshAttendance") ||
+        document.querySelector(
+            'button[onclick*="loadAttendanceHistory"]'
+        );
+
+
+    if (refreshButton) {
+
+        refreshButton.onclick =
+            function(event) {
+
+                event.preventDefault();
+
+                refreshAttendance();
+
+            };
+    }
 }
 
 
-/* =========================================================
+/* =========================
    PAGE LOAD
-   ========================================================= */
+========================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+document.addEventListener("DOMContentLoaded", async function() {
 
-        loadAttendanceHistory();
+  console.log("Attendance system loading...");
 
-        connectAttendanceButtons();
+  await loadAttendanceEmployees();
+  await loadAttendanceHistory();
 
-    }
-);
+  connectAttendanceButtons();
+
+  console.log("Attendance system ready.");
+});
 
 
-/* =========================================================
-   END OF SCRIPT
-   ========================================================= */
+/* =========================
+   END
+========================= */
+
+</script>
