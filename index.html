@@ -905,106 +905,59 @@ function refreshAttendance() {
 
 function connectAttendanceButtons() {
 
-    const checkInButton =
-        document.getElementById("checkInButton") ||
-        document.querySelector(
-            'button[onclick*="checkInEmployee"]'
-        );
+  const checkInButton =
+    document.getElementById("checkInButton") ||
+    document.querySelector('button[onclick*="checkInEmployee"]');
+
+  const checkOutButton =
+    document.getElementById("checkOutButton") ||
+    document.querySelector('button[onclick*="checkOutEmployee"]');
+
+  const markPresentButton =
+    document.getElementById("markPresentButton") ||
+    document.querySelector('button[onclick*="markAttendance"]');
+
+  const refreshButton =
+    document.getElementById("refreshAttendanceButton") ||
+    document.querySelector('button[onclick*="refreshAttendance"]');
 
 
-    if (checkInButton) {
-
-        checkInButton.onclick =
-            function(event) {
-
-                event.preventDefault();
-
-                checkInEmployee();
-
-            };
-    }
+  // CHECK IN
+  if (checkInButton) {
+    checkInButton.onclick = function(event) {
+      event.preventDefault();
+      checkInEmployee();
+    };
+  }
 
 
-    const checkOutButton =
-        document.getElementById("checkOutButton") ||
-        document.querySelector(
-            'button[onclick*="checkOutEmployee"]'
-        );
+  // CHECK OUT
+  if (checkOutButton) {
+    checkOutButton.onclick = function(event) {
+      event.preventDefault();
+      checkOutEmployee();
+    };
+  }
 
 
-    if (checkOutButton) {
-
-        checkOutButton.onclick =
-            function(event) {
-
-                event.preventDefault();
-
-                checkOutEmployee();
-
-            };
-    }
+  // MARK PRESENT
+  if (markPresentButton) {
+    markPresentButton.onclick = function(event) {
+      event.preventDefault();
+      markAttendance();
+    };
+  }
 
 
-    const presentButton =
-        document.getElementById("markPresentButton") ||
-        document.querySelector(
-            'button[onclick*="markAttendancePresent"]'
-        );
-
-
-    if (presentButton) {
-
-        presentButton.onclick =
-            function(event) {
-
-                event.preventDefault();
-
-                markAttendancePresent();
-
-            };
-    }
-
-
-    const refreshButton =
-        document.getElementById("refreshAttendance") ||
-        document.querySelector(
-            'button[onclick*="loadAttendanceHistory"]'
-        );
-
-
-    if (refreshButton) {
-
-        refreshButton.onclick =
-            function(event) {
-
-                event.preventDefault();
-
-                refreshAttendance();
-
-            };
-    }
+  // REFRESH ATTENDANCE
+  if (refreshButton) {
+    refreshButton.onclick = function(event) {
+      event.preventDefault();
+      refreshAttendance();
+    };
+  }
 }
 
 
-/* =========================
-   PAGE LOAD
-========================= */
-
-document.addEventListener("DOMContentLoaded", async function() {
-
-  console.log("Attendance system loading...");
-
-  await loadAttendanceEmployees();
-  await loadAttendanceHistory();
-
-  connectAttendanceButtons();
-
-  console.log("Attendance system ready.");
-});
-
-
-/* =========================
-   END
-========================= */
-
-</script>
+// CONNECT BUTTONS
+connectAttendanceButtons();
