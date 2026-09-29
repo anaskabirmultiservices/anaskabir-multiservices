@@ -9,50 +9,73 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#101828;background:#fff;line-height:1.6}
-a{text-decoration:none}
-.container{width:92%;max-width:1180px;margin:auto}
+a{text-decoration:none}.container{width:92%;max-width:1180px;margin:auto}
 header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e5e7eb}
 .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:12px;color:#101828;font-weight:800;font-size:20px}
 .logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#1769e8,#673de6)}
-.navlinks{display:flex;gap:22px;font-weight:700}
-.navlinks a{color:#344054}
+.navlinks{display:flex;gap:22px;font-weight:700}.navlinks a{color:#344054}
 .menu{display:none;border:0;background:#eef4ff;border-radius:10px;padding:8px 12px;font-size:24px}
 .hero{padding:80px 0;background:linear-gradient(135deg,#f5faff,#f5f0ff)}
 .hero-grid,.about-grid,.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
 .badge{display:inline-block;padding:9px 18px;border-radius:30px;background:#eaf2ff;color:#175cd3;font-weight:800}
 h1{font-size:clamp(42px,6vw,72px);line-height:1.03;margin:20px 0}
 .grad{background:linear-gradient(90deg,#1769e8,#673de6);-webkit-background-clip:text;color:transparent}
-.hero p{font-size:19px;color:#475467}
-.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;font-weight:800}
+.hero p{font-size:19px;color:#475467}.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;font-weight:800;border:0;cursor:pointer}
 .primary{background:#1769e8;color:#fff}.green{background:#16a34a;color:#fff}.outline{background:#fff;color:#101828;border:1px solid #d0d5dd}
 .card,.service,.segment,.step,.contact-card,.compare{background:#fff;border:1px solid #e4e7ec;border-radius:20px;padding:26px;box-shadow:0 8px 25px rgba(16,24,40,.07)}
 .quick{display:grid;gap:12px}.quick div{background:#f8fafc;border-radius:14px;padding:14px}
-section{padding:72px 0}
-.head{text-align:center;max-width:760px;margin:0 auto 38px}
+section{padding:72px 0}.head{text-align:center;max-width:760px;margin:0 auto 38px}
 .head h2{font-size:38px;margin:0 0 10px}.head p{color:#475467}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .service h3,.segment h3{margin:8px 0;font-size:20px}.icon{font-size:28px}
 .service p,.segment p,.about p,.step p,.contact-card p,.compare p{color:#475467}
-.alt{background:#f7f9fc}
-.service ul,.compare ul{padding-left:20px;color:#475467}
-.process{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.step{text-align:center}.num{width:44px;height:44px;border-radius:50%;margin:0 auto 12px;background:#1769e8;color:#fff;display:grid;place-items:center;font-weight:800}
+.alt{background:#f7f9fc}.service ul,.compare ul{padding-left:20px;color:#475467}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.step{text-align:center}
+.num{width:44px;height:44px;border-radius:50%;margin:0 auto 12px;background:#1769e8;color:#fff;display:grid;place-items:center;font-weight:800}
 .docs{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.docs .card h3{margin-top:0}
-.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;background:#fff;border-radius:15px;overflow:hidden}.table th,.table td{padding:14px;border:1px solid #e4e7ec;text-align:left}.table th{background:#eef4ff}
+.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;background:#fff;border-radius:15px;overflow:hidden}
+.table th,.table td{padding:14px;border:1px solid #e4e7ec;text-align:left}.table th{background:#eef4ff}
 .about{background:#f6f8ff}.check{display:grid;gap:10px;color:#475467}
 .contact{background:linear-gradient(135deg,#eef5ff,#f4efff)}
 .item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #eee}.item:last-child{border-bottom:0}.item a{color:#175cd3}
 footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-content:space-between;gap:20px}
 .float{position:fixed;right:18px;bottom:18px;background:#16a34a;color:#fff;padding:14px 20px;border-radius:40px;font-weight:800;z-index:200;box-shadow:0 8px 25px #0003}
+
+/* Attendance */
+.attendance-section{padding:55px 20px;background:#f5f7ff}
+.attendance-box{max-width:1100px;margin:auto}
+.attendance-panel{background:#fff;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.attendance-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-weight:700;margin-bottom:7px}
+.field input,.field select{width:100%;padding:13px;border:1px solid #d0d5dd;border-radius:10px;font-size:16px;background:#fff}
+.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.action-grid .btn{width:100%}
+.btn-red{background:#dc2626;color:#fff}.btn-dark{background:#111827;color:#fff}.btn-purple{background:#673de6;color:#fff}
+.employee-tools{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:18px}
+.employee-tools input{padding:13px;border:1px solid #d0d5dd;border-radius:10px;font-size:16px}
+.employee-list{margin-top:15px;display:grid;gap:8px}
+.employee-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border:1px solid #e4e7ec;border-radius:10px;background:#fafafa}
+.employee-actions{display:flex;gap:6px}.small-btn{padding:8px 12px;border:0;border-radius:8px;cursor:pointer;font-weight:700}
+.edit-btn{background:#eaf2ff;color:#175cd3}.delete-btn{background:#fee2e2;color:#b91c1c}
+.history-wrap{overflow-x:auto;margin-top:25px}.history-table{width:100%;border-collapse:collapse;min-width:760px}
+.history-table th,.history-table td{padding:12px;border:1px solid #e4e7ec;text-align:left}.history-table th{background:#f3f4f6}
+.status-present{color:#15803d;font-weight:800}.status-open{color:#b45309;font-weight:800}
+.message{margin-top:15px;padding:12px 15px;border-radius:10px;display:none;font-weight:700}
+.message.success{display:block;background:#dcfce7;color:#166534}.message.error{display:block;background:#fee2e2;color:#991b1b}
+.modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}.modal-card{background:#fff;width:100%;max-width:500px;border-radius:18px;padding:24px;box-shadow:0 20px 50px #0004}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
 @media(max-width:850px){
 .navlinks{display:none;position:absolute;top:76px;left:0;right:0;background:#fff;padding:18px 4%;flex-direction:column;border-bottom:1px solid #ddd}
 .navlinks.show{display:flex}.menu{display:block}
 .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.process{grid-template-columns:repeat(2,1fr)}
+.action-grid{grid-template-columns:repeat(2,1fr)}.attendance-toolbar{grid-template-columns:1fr}
 }
 @media(max-width:560px){
 .grid,.docs,.process{grid-template-columns:1fr}section{padding:55px 0}.foot{flex-direction:column}
+.employee-tools{grid-template-columns:1fr}.employee-row{align-items:flex-start;flex-direction:column}.action-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -61,16 +84,15 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <header>
 <div class="container nav">
 <a class="brand" href="#home"><span class="logo">AK</span>AnasKabir Multiservices</a>
-<button class="menu" onclick="toggleMenu()">☰</button>
+<button class="menu" type="button" onclick="toggleMenu()">☰</button>
 <nav class="navlinks" id="nav">
 <a href="#home">Home</a><a href="#services">Services</a><a href="#insurance">Insurance</a>
-<a href="#banking">Banking</a><a href="#process">Process</a><a href="#contact">Contact</a>
+<a href="#banking">Banking</a><a href="#attendance-system">Attendance</a><a href="#contact">Contact</a>
 </nav>
 </div>
 </header>
 
 <main id="home">
-
 <section class="hero">
 <div class="container hero-grid">
 <div>
@@ -95,8 +117,7 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 </div>
 </section>
 
-<section id="services">
-<div class="container">
+<section id="services"><div class="container">
 <div class="head"><h2>Our Complete Services</h2><p>Item-wise services covered in the AnasKabir Multiservices presentation.</p></div>
 <div class="grid">
 <div class="service"><div class="icon">🏥</div><h3>Health Insurance</h3><p>Assistance for individual and family health insurance requirements, policy enquiries and service coordination.</p></div>
@@ -111,12 +132,9 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <div class="service"><div class="icon">🏠</div><h3>Housing / Home Loans</h3><p>Home loan and housing finance enquiry and documentation assistance.</p></div>
 <div class="service"><div class="icon">📊</div><h3>Financial Services</h3><p>General assistance for selected financial service requirements and customer enquiries.</p></div>
 <div class="service"><div class="icon">📑</div><h3>Documentation & Coordination</h3><p>Guidance on documents, forms, application steps and coordination with the relevant service provider.</p></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="insurance" class="alt">
-<div class="container">
+<section id="insurance" class="alt"><div class="container">
 <div class="head"><h2>Insurance Services – Detailed</h2><p>Support across personal, family, group and business insurance requirements.</p></div>
 <div class="grid">
 <div class="service"><h3>🏥 Health Insurance</h3><ul><li>Individual health insurance</li><li>Family health insurance</li><li>Policy enquiry and service assistance</li><li>Documentation guidance</li></ul></div>
@@ -125,12 +143,9 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <div class="service"><h3>🏢 Corporate Insurance</h3><ul><li>Business insurance requirements</li><li>Corporate policy assistance</li><li>Documentation coordination</li><li>Service-provider coordination</li></ul></div>
 <div class="service"><h3>👥 Group Health Insurance</h3><ul><li>Employee/group requirements</li><li>Group health policy assistance</li><li>Basic documentation guidance</li><li>Service coordination</li></ul></div>
 <div class="service"><h3>📋 Insurance Assistance</h3><ul><li>Requirement assessment</li><li>Option explanation</li><li>Application support</li><li>Follow-up and coordination</li></ul></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="banking">
-<div class="container">
+<section id="banking"><div class="container">
 <div class="head"><h2>Banking & Financial Services</h2><p>Assistance for customers looking for banking and finance-related services.</p></div>
 <div class="grid">
 <div class="service"><div class="icon">🏦</div><h3>Bank Accounts</h3><p>Assistance with account-related enquiries, documentation and application process.</p></div>
@@ -139,12 +154,9 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <div class="service"><div class="icon">🏠</div><h3>Housing / Home Loans</h3><p>Home loan enquiry, basic documentation and application assistance.</p></div>
 <div class="service"><div class="icon">📈</div><h3>Financial Services</h3><p>Assistance for selected financial service requirements and customer enquiries.</p></div>
 <div class="service"><div class="icon">🤝</div><h3>Customer Support</h3><p>Simple communication, document guidance and coordination with the relevant provider.</p></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="customers" class="alt">
-<div class="container">
+<section id="customers" class="alt"><div class="container">
 <div class="head"><h2>Who We Serve</h2><p>Our service assistance is designed for different customer requirements.</p></div>
 <div class="grid">
 <div class="segment"><h3>👤 Individuals</h3><p>Customers looking for personal insurance, banking or financial service assistance.</p></div>
@@ -153,39 +165,29 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <div class="segment"><h3>🏢 Businesses</h3><p>Businesses requiring corporate insurance and selected financial services.</p></div>
 <div class="segment"><h3>🚗 Vehicle Owners</h3><p>Customers requiring motor insurance assistance.</p></div>
 <div class="segment"><h3>🏠 Loan Applicants</h3><p>Customers seeking personal or housing/home loan information and application support.</p></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="process">
-<div class="container">
+<section id="process"><div class="container">
 <div class="head"><h2>Our Service Process</h2><p>A simple step-by-step approach.</p></div>
 <div class="process">
 <div class="step"><div class="num">1</div><h3>Requirement</h3><p>Understand your service requirement.</p></div>
 <div class="step"><div class="num">2</div><h3>Information</h3><p>Explain the relevant service and basic requirements.</p></div>
 <div class="step"><div class="num">3</div><h3>Documents</h3><p>Guide you regarding applicable documents and forms.</p></div>
 <div class="step"><div class="num">4</div><h3>Coordination</h3><p>Assist with the application/service process and follow-up.</p></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="documents" class="alt">
-<div class="container">
+<section id="documents" class="alt"><div class="container">
 <div class="head"><h2>General Documentation Guidance</h2><p>Exact requirements vary by product, provider and customer profile.</p></div>
 <div class="docs">
 <div class="card"><h3>🪪 Common KYC Documents</h3><ul><li>PAN Card</li><li>Aadhaar / applicable identity proof</li><li>Address proof</li><li>Photograph, where applicable</li></ul></div>
 <div class="card"><h3>💼 Income / Financial Documents</h3><ul><li>Income proof, where applicable</li><li>Bank statements, where applicable</li><li>Business documents, where applicable</li><li>Other provider-specific documents</li></ul></div>
 <div class="card"><h3>🏥 Insurance Documents</h3><ul><li>Identity and address documents</li><li>Existing policy details, where applicable</li><li>Medical information, where required</li><li>Other insurer-specific documents</li></ul></div>
 <div class="card"><h3>🏠 Loan Documents</h3><ul><li>KYC documents</li><li>Income documents</li><li>Bank statements</li><li>Property documents, where applicable</li></ul></div>
-</div>
-</div>
-</section>
+</div></div></section>
 
-<section id="comparison">
-<div class="container">
+<section id="comparison"><div class="container">
 <div class="head"><h2>Service Comparison</h2><p>Different services address different customer requirements.</p></div>
-<div class="table-wrap">
-<table class="table">
+<div class="table-wrap"><table class="table">
 <tr><th>Service</th><th>Main Purpose</th><th>Typical Customer Need</th></tr>
 <tr><td>Health Insurance</td><td>Health-related financial protection</td><td>Individual / family coverage</td></tr>
 <tr><td>Life Insurance</td><td>Life protection</td><td>Long-term family financial protection</td></tr>
@@ -196,31 +198,66 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <tr><td>Credit Cards</td><td>Credit facility</td><td>Eligible customers seeking a card</td></tr>
 <tr><td>Personal Loans</td><td>Borrowing for personal needs</td><td>Eligible loan applicants</td></tr>
 <tr><td>Home Loans</td><td>Housing finance</td><td>Eligible home/property buyers</td></tr>
+</table></div></div></section>
+
+<section class="about" id="about"><div class="container about-grid">
+<div><span class="badge">ABOUT ANASKABIR MULTISERVICES</span>
+<h2>Simple, convenient and professional assistance.</h2>
+<p>AnasKabir Multiservices assists individuals and businesses with insurance, banking and financial service requirements.</p>
+<div class="check"><div>✓ Personalised customer assistance</div><div>✓ Simple service explanation</div><div>✓ Documentation guidance</div><div>✓ Application and coordination support</div><div>✓ Phone and WhatsApp communication</div></div></div>
+<div class="card"><h2>Important</h2><p>Services are subject to the eligibility criteria, terms, conditions, documentation and approval requirements of the concerned insurance company, bank, lender or financial service provider.</p></div>
+</div></section>
+
+<!-- ========================= ATTENDANCE SYSTEM ========================= -->
+<section id="attendance-system" class="attendance-section">
+<div class="attendance-box">
+<div class="head">
+<span class="badge">EMPLOYEE MANAGEMENT</span>
+<h2>Employee Attendance</h2>
+<p>Add employees, check them in/out, and view attendance history.</p>
+</div>
+
+<div class="attendance-panel">
+<div class="attendance-toolbar">
+<div class="field">
+<label for="employeeSelect">Select Employee</label>
+<select id="employeeSelect"></select>
+</div>
+<div class="field">
+<label for="attendanceDate">Attendance Date</label>
+<input type="date" id="attendanceDate">
+</div>
+</div>
+
+<div class="action-grid">
+<button type="button" class="btn btn-purple" onclick="openEmployeeModal()">➕ Add New Employee</button>
+<button type="button" class="btn green" onclick="checkInEmployee()">🟢 Check In</button>
+<button type="button" class="btn btn-red" onclick="checkOutEmployee()">🔴 Check Out</button>
+<button type="button" class="btn btn-dark" onclick="loadAttendanceHistory()">🔄 Refresh</button>
+</div>
+
+<div id="attendanceMessage" class="message"></div>
+
+<div class="employee-tools">
+<input type="text" id="employeeSearch" placeholder="🔍 Search employee..." oninput="renderEmployeeList()">
+<button type="button" class="btn outline" onclick="openEmployeeModal()">➕ Add Employee</button>
+</div>
+
+<div id="employeeList" class="employee-list"></div>
+
+<div class="history-wrap">
+<table class="history-table">
+<thead><tr>
+<th>Employee</th><th>Date</th><th>Check In</th><th>Check Out</th><th>Status</th><th>Action</th>
+</tr></thead>
+<tbody id="attendanceHistoryBody"></tbody>
 </table>
 </div>
 </div>
-</section>
-
-<section class="about" id="about">
-<div class="container about-grid">
-<div>
-<span class="badge">ABOUT ANASKABIR MULTISERVICES</span>
-<h2>Simple, convenient and professional assistance.</h2>
-<p>AnasKabir Multiservices assists individuals and businesses with insurance, banking and financial service requirements.</p>
-<div class="check">
-<div>✓ Personalised customer assistance</div>
-<div>✓ Simple service explanation</div>
-<div>✓ Documentation guidance</div>
-<div>✓ Application and coordination support</div>
-<div>✓ Phone and WhatsApp communication</div>
-</div>
-</div>
-<div class="card"><h2>Important</h2><p>Services are subject to the eligibility criteria, terms, conditions, documentation and approval requirements of the concerned insurance company, bank, lender or financial service provider.</p></div>
 </div>
 </section>
 
-<section class="contact" id="contact">
-<div class="container">
+<section class="contact" id="contact"><div class="container">
 <div class="head"><h2>Contact AnasKabir Multiservices</h2><p>Get in touch for enquiries and service assistance.</p></div>
 <div class="contact-grid">
 <div class="contact-card">
@@ -229,746 +266,425 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <div class="item">✉️ <div><b>Email</b><br><a href="mailto:anaskabirmultiservices@protonmail.com">anaskabirmultiservices@protonmail.com</a></div></div>
 <div class="item">📍 <div><b>Registered Address</b><br>Gauri Apartment, Pimple Gurav, Dapodi, Pune - 411061</div></div>
 </div>
-<div class="contact-card">
-<h2>Need assistance?</h2><p>Call or message us on WhatsApp for your insurance, banking or financial service enquiry.</p>
-<div class="buttons"><a class="btn primary" href="tel:+918600295143">📞 Call Now</a><a class="btn green" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a></div>
-</div>
-</div>
-</div>
-</section>
-
+<div class="contact-card"><h2>Need assistance?</h2><p>Call or message us on WhatsApp for your insurance, banking or financial service enquiry.</p>
+<div class="buttons"><a class="btn primary" href="tel:+918600295143">📞 Call Now</a><a class="btn green" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a></div></div>
+</div></div></section>
 </main>
 
-<footer>
-<div class="container foot">
+<footer><div class="container foot">
 <div><b>AnasKabir Multiservices</b><br><small>Insurance • Banking • Financial Services</small></div>
 <div><small>© <span id="year"></span> AnasKabir Multiservices. All rights reserved.</small></div>
-</div>
-</footer>
-
+</div></footer>
 <a class="float" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a>
 
-<script>
-function toggleMenu(){document.getElementById('nav').classList.toggle('show')}
-document.getElementById('year').textContent=new Date().getFullYear();
-</script>
-<!-- ATTENDANCE SYSTEM -->
-<section id="attendance-system" style="padding:40px 20px;background:#f5f7ff;">
-  <div style="max-width:900px;margin:auto;">
-    <h2 style="font-size:32px;margin-bottom:10px;">
-      Employee Attendance
-    </h2>
-
-    <p style="color:#666;margin-bottom:25px;">
-      AnasKabir Multiservices Employee Attendance
-    </p>
-
-    <div style="background:white;padding:20px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);">
-      <label><b>Select Employee</b></label>
-
-      <select id="employeeSelect"
-        style="width:100%;padding:14px;margin:10px 0 20px;border:1px solid #ddd;border-radius:8px;">
-        <option value="">Select Employee</option>
-        <option value="c0ab6a7b-c450-431c-afaf-7e9...">
-          Imtiyaz Mubarak Khan
-        </option>
-        <option value="dc4c4...">
-          SEEMA IMTIYAZ KHAN
-        </option>
-      </select>
-
-      <button onclick="markAttendance()"
-        style="width:100%;padding:15px;background:#1769ff;color:white;border:0;border-radius:8px;font-size:17px;">
-        🟢 Mark Present
-      </button><button type="button" onclick="checkInEmployee()"
-style="width:100%;padding:15px;background:#16a34a;color:white;border:none;border-radius:10px;margin-top:10px;font-size:18px;">
-🟢 Check In
-</button>
-
-<button type="button" onclick="checkOutEmployee()"
-style="width:100%;padding:15px;background:#dc2626;color:white;border:none;border-radius:10px;margin-top:10px;font-size:18px;">
-🔴 Check Out
-</button>
-
-      <p id="attendanceMessage" style="margin-top:20px;"></p>
-    </div>
-  </div>
-  <!-- ATTENDANCE HISTORY -->
-
-
-<h2 style="margin-bottom:10px;">Attendance History</h2>
-
-<p style="color:#666;margin-bottom:20px;">
-View employee attendance records
-</p>
-
-<div style="overflow-x:auto;">
-<table style="width:100%;border-collapse:collapse;min-width:650px;">
-
-<thead>
-<tr style="background:#f3f4f6;">
-<th style="padding:12px;text-align:left;">Employee</th>
-<th style="padding:12px;text-align:left;">Date</th>
-<th style="padding:12px;text-align:left;">Check In</th>
-<th style="padding:12px;text-align:left;">Check Out</th>
-<th style="padding:12px;text-align:left;">Status</th>
-</tr>
-</thead>
-
-<tbody id="attendanceHistoryBody">
-
-<tr>
-<td colspan="5" style="padding:20px;text-align:center;color:#666;">
-Loading attendance...
-</td>
-</tr>
-
-</tbody>
-
-</table>
+<!-- ADD / EDIT EMPLOYEE MODAL -->
+<div id="employeeModal" class="modal" onclick="closeModalOnBackdrop(event)">
+<div class="modal-card">
+<h2 id="employeeModalTitle">Add New Employee</h2>
+<div class="field">
+<label for="employeeNameInput">Employee Name</label>
+<input id="employeeNameInput" type="text" placeholder="Enter employee name">
+</div>
+<div class="modal-actions">
+<button type="button" class="btn outline" onclick="closeEmployeeModal()">Cancel</button>
+<button type="button" class="btn primary" onclick="saveEmployee()">Save Employee</button>
+</div>
+</div>
 </div>
 
-<button type="button" onclick="loadAttendanceHistory()"
-style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:10px;background:#111827;color:white;font-size:16px;">
-🔄 Refresh Attendance
-</button>
-
-</div>
-</section>
-  </section>
-
 <script>
+"use strict";
 
 /* =========================
-   ATTENDANCE FUNCTIONS
+   GENERAL SITE
 ========================= */
+function toggleMenu(){
+  const nav=document.getElementById("nav");
+  if(nav) nav.classList.toggle("show");
+}
+document.getElementById("year").textContent=new Date().getFullYear();
 
-/* DATE */
-function getCurrentDate() {
-    const now = new Date();
+/* =========================
+   EMPLOYEE + ATTENDANCE DATA
+   This version stores data in browser localStorage.
+========================= */
+const EMPLOYEE_KEY="anasKabirEmployees_v2";
+const ATTENDANCE_KEY="anasKabirAttendance_v2";
 
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
+let editingEmployeeId=null;
 
-    return year + "-" + month + "-" + day;
+function makeId(){
+  if(window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "emp-"+Date.now()+"-"+Math.random().toString(36).slice(2,10);
 }
 
-
-function getCurrentTime() {
-    const now = new Date();
-
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-
-    return hours + ":" + minutes + ":" + seconds;
+function getEmployees(){
+  try{
+    const raw=localStorage.getItem(EMPLOYEE_KEY);
+    const data=raw?JSON.parse(raw):[];
+    return Array.isArray(data)?data:[];
+  }catch(e){
+    console.error(e);
+    return [];
+  }
 }
 
-
-/* MESSAGE */
-function showAttendanceMessage(message, type) {
-
-    let box = document.getElementById("attendanceMessage");
-
-    if (!box) {
-        box = document.createElement("div");
-        box.id = "attendanceMessage";
-
-        box.style.position = "fixed";
-        box.style.top = "80px";
-        box.style.left = "50%";
-        box.style.transform = "translateX(-50%)";
-        box.style.zIndex = "99999";
-        box.style.padding = "14px 22px";
-        box.style.borderRadius = "10px";
-        box.style.color = "white";
-        box.style.fontWeight = "600";
-        box.style.textAlign = "center";
-
-        document.body.appendChild(box);
-    }
-
-    box.textContent = message;
-
-    if (type === "red") {
-        box.style.background = "#dc2626";
-    } else if (type === "orange") {
-        box.style.background = "#f59e0b";
-    } else {
-        box.style.background = "#16a34a";
-    }
-
-    box.style.display = "block";
-
-    setTimeout(function () {
-        box.style.display = "none";
-    }, 3000);
+function saveEmployees(list){
+  localStorage.setItem(EMPLOYEE_KEY,JSON.stringify(list));
 }
 
-
-/* GET EMPLOYEE */
-function getSelectedEmployee() {
-
-    const select =
-        document.getElementById("attendanceEmployee") ||
-        document.getElementById("employeeSelect") ||
-        document.querySelector('select[name="employee"]');
-
-    if (!select) {
-        return null;
-    }
-
-    return select.value;
+function getAttendanceRecords(){
+  try{
+    const raw=localStorage.getItem(ATTENDANCE_KEY);
+    const data=raw?JSON.parse(raw):[];
+    return Array.isArray(data)?data:[];
+  }catch(e){
+    console.error(e);
+    return [];
+  }
 }
 
+function saveAttendanceRecords(list){
+  localStorage.setItem(ATTENDANCE_KEY,JSON.stringify(list));
+}
 
-/* ATTENDANCE STORAGE */
-function getAttendanceRecords() {
+function getCurrentDate(){
+  const now=new Date();
+  return now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+}
 
-    try {
+function getCurrentTime(){
+  const now=new Date();
+  return String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0")+":"+String(now.getSeconds()).padStart(2,"0");
+}
 
-        const data =
-            localStorage.getItem("anasKabirAttendance");
+function showAttendanceMessage(message,type="success"){
+  const box=document.getElementById("attendanceMessage");
+  box.textContent=message;
+  box.className="message "+(type==="error"?"error":"success");
+  clearTimeout(window.attendanceMessageTimer);
+  window.attendanceMessageTimer=setTimeout(()=>{
+    box.className="message";
+    box.textContent="";
+  },3500);
+}
 
-        if (!data) {
-            return [];
-        }
+/* =========================
+   EMPLOYEE MANAGEMENT
+========================= */
+function seedEmployeesIfNeeded(){
+  const employees=getEmployees();
+  if(employees.length===0){
+    saveEmployees([
+      {id:makeId(),name:"Imtiyaz Mubarak Khan"},
+      {id:makeId(),name:"SEEMA IMTIYAZ KHAN"}
+    ]);
+  }
+}
 
-        const records = JSON.parse(data);
+function populateEmployeeSelect(){
+  const select=document.getElementById("employeeSelect");
+  const employees=getEmployees();
+  const current=select.value;
 
-        return Array.isArray(records) ? records : [];
+  select.innerHTML='<option value="">Select Employee</option>';
+  employees.sort((a,b)=>a.name.localeCompare(b.name)).forEach(emp=>{
+    const option=document.createElement("option");
+    option.value=emp.id;
+    option.textContent=emp.name;
+    select.appendChild(option);
+  });
 
-    } catch (error) {
+  if(employees.some(e=>e.id===current)) select.value=current;
+}
 
-/* REFRESH ATTENDANCE */
-if (text.includes("refresh")) {
-    event.preventDefault();
-    refreshAttendance();
+function renderEmployeeList(){
+  const list=document.getElementById("employeeList");
+  const search=document.getElementById("employeeSearch").value.trim().toLowerCase();
+  const employees=getEmployees().filter(e=>e.name.toLowerCase().includes(search));
+  list.innerHTML="";
+
+  if(employees.length===0){
+    list.innerHTML='<div style="padding:14px;color:#667085;text-align:center">No employees found.</div>';
     return;
+  }
+
+  employees.sort((a,b)=>a.name.localeCompare(b.name)).forEach(emp=>{
+    const row=document.createElement("div");
+    row.className="employee-row";
+
+    const name=document.createElement("div");
+    name.innerHTML="<b>"+escapeHtml(emp.name)+"</b>";
+
+    const actions=document.createElement("div");
+    actions.className="employee-actions";
+
+    const edit=document.createElement("button");
+    edit.type="button";
+    edit.className="small-btn edit-btn";
+    edit.textContent="✏️ Edit";
+    edit.onclick=()=>openEmployeeModal(emp.id);
+
+    const del=document.createElement("button");
+    del.type="button";
+    del.className="small-btn delete-btn";
+    del.textContent="🗑️ Delete";
+    del.onclick=()=>deleteEmployee(emp.id);
+
+    actions.append(edit,del);
+    row.append(name,actions);
+    list.appendChild(row);
+  });
 }
 
-function refreshAttendance() {
-    loadAttendanceHistory();
+function openEmployeeModal(employeeId=null){
+  editingEmployeeId=employeeId;
+  const modal=document.getElementById("employeeModal");
+  const input=document.getElementById("employeeNameInput");
+  const title=document.getElementById("employeeModalTitle");
+
+  if(employeeId){
+    const employee=getEmployees().find(e=>e.id===employeeId);
+    if(!employee) return;
+    title.textContent="Edit Employee";
+    input.value=employee.name;
+  }else{
+    title.textContent="Add New Employee";
+    input.value="";
+  }
+  modal.classList.add("show");
+  setTimeout(()=>input.focus(),100);
 }
-    window.location.reload();
+
+function closeEmployeeModal(){
+  document.getElementById("employeeModal").classList.remove("show");
+  document.getElementById("employeeNameInput").value="";
+  editingEmployeeId=null;
 }
-  function saveAttendanceRecords(records) {
 
-    try {
+function closeModalOnBackdrop(event){
+  if(event.target.id==="employeeModal") closeEmployeeModal();
+}
 
-        localStorage.setItem(
-            "anasKabirAttendance",
-            JSON.stringify(records)
-        );
+function saveEmployee(){
+  const input=document.getElementById("employeeNameInput");
+  const name=input.value.trim();
 
-        return true;
+  if(!name){
+    alert("Please enter employee name.");
+    input.focus();
+    return;
+  }
 
-    } catch (error) {
+  const employees=getEmployees();
 
-        console.error(error);
-
-        return false;
+  if(editingEmployeeId){
+    const employee=employees.find(e=>e.id===editingEmployeeId);
+    if(employee) employee.name=name;
+    saveEmployees(employees);
+    showAttendanceMessage("Employee updated successfully.");
+  }else{
+    const duplicate=employees.some(e=>e.name.toLowerCase()===name.toLowerCase());
+    if(duplicate){
+      alert("This employee already exists.");
+      return;
     }
+    const newEmployee={id:makeId(),name};
+    employees.push(newEmployee);
+    saveEmployees(employees);
+    document.getElementById("employeeSelect").value=newEmployee.id;
+    showAttendanceMessage("New employee added successfully.");
+  }
+
+  closeEmployeeModal();
+  populateEmployeeSelect();
+  if(editingEmployeeId) document.getElementById("employeeSelect").value=editingEmployeeId;
+  renderEmployeeList();
 }
 
+function deleteEmployee(employeeId){
+  const employee=getEmployees().find(e=>e.id===employeeId);
+  if(!employee) return;
 
-/* EMPLOYEE NAME */
-function getEmployeeName(employee) {
+  if(!confirm("Delete employee '"+employee.name+"'? Attendance history will remain.")) return;
 
-    const select =
-        document.getElementById("attendanceEmployee") ||
-        document.getElementById("employeeSelect") ||
-        document.querySelector('select[name="employee"]');
-
-    if (select) {
-
-        const option =
-            select.options[select.selectedIndex];
-
-        if (option && option.textContent) {
-            return option.textContent.trim();
-        }
-    }
-
-    return employee;
+  const remaining=getEmployees().filter(e=>e.id!==employeeId);
+  saveEmployees(remaining);
+  populateEmployeeSelect();
+  renderEmployeeList();
+  showAttendanceMessage("Employee deleted successfully.");
 }
-
 
 /* =========================
-   CHECK IN
+   CHECK IN / CHECK OUT
 ========================= */
-
-function checkInEmployee() {
-
-    const employee =
-        getSelectedEmployee();
-
-    if (!employee) {
-
-        showAttendanceMessage(
-            "Please select an employee.",
-            "red"
-        );
-
-        return;
-    }
-
-    const today =
-        getCurrentDate();
-
-    const attendance =
-        getAttendanceRecords();
-
-    const existingIndex =
-        attendance.findIndex(function(record) {
-
-            return (
-                String(record.employee) === String(employee) &&
-                record.date === today
-            );
-
-        });
-
-
-    if (existingIndex !== -1) {
-
-        const record =
-            attendance[existingIndex];
-
-        if (record.checkIn) {
-
-            showAttendanceMessage(
-                "Employee is already checked in.",
-                "red"
-            );
-
-            return;
-        }
-
-        record.checkIn =
-            getCurrentTime();
-
-        record.status =
-            "Present";
-
-    } else {
-
-        attendance.push({
-
-            employee: employee,
-
-            employeeName:
-                getEmployeeName(employee),
-
-            date: today,
-
-            checkIn:
-                getCurrentTime(),
-
-            checkOut: "",
-
-            status: "Present"
-
-        });
-    }
-
-
-    if (!saveAttendanceRecords(attendance)) {
-
-        showAttendanceMessage(
-            "Unable to save Check In.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    showAttendanceMessage(
-        "🟢 Check In recorded successfully!",
-        "green"
-    );
-
-    loadAttendanceHistory();
+function getSelectedEmployee(){
+  return document.getElementById("employeeSelect").value;
 }
 
-
-/* =========================
-   CHECK OUT
-========================= */
-
-function checkOutEmployee() {
-
-    const employee =
-        getSelectedEmployee();
-
-    if (!employee) {
-
-        showAttendanceMessage(
-            "Please select an employee.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    const today =
-        getCurrentDate();
-
-    const attendance =
-        getAttendanceRecords();
-
-
-    const existingIndex =
-        attendance.findIndex(function(record) {
-
-            return (
-                String(record.employee) === String(employee) &&
-                record.date === today
-            );
-
-        });
-
-
-    if (existingIndex === -1) {
-
-        showAttendanceMessage(
-            "Employee has not checked in today.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    const record =
-        attendance[existingIndex];
-
-
-    if (!record.checkIn) {
-
-        showAttendanceMessage(
-            "Employee has not checked in today.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    if (record.checkOut) {
-
-        showAttendanceMessage(
-            "Employee is already checked out.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    record.checkOut =
-        getCurrentTime();
-
-
-    record.status =
-        "Present";
-
-
-    if (!saveAttendanceRecords(attendance)) {
-
-        showAttendanceMessage(
-            "Unable to save Check Out.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    showAttendanceMessage(
-        "🔴 Check Out recorded successfully!",
-        "green"
-    );
-
-
-    loadAttendanceHistory();
+function getSelectedEmployeeName(){
+  const id=getSelectedEmployee();
+  const employee=getEmployees().find(e=>e.id===id);
+  return employee?employee.name:"";
 }
 
+function getRecordForEmployeeDate(employeeId,date){
+  return getAttendanceRecords().find(r=>String(r.employeeId)===String(employeeId) && r.date===date);
+}
 
-/* =========================
-   MARK PRESENT
-========================= */
+function checkInEmployee(){
+  const employeeId=getSelectedEmployee();
+  const date=document.getElementById("attendanceDate").value||getCurrentDate();
 
-function markAttendance() {
+  if(!employeeId){
+    showAttendanceMessage("Please select an employee.","error");
+    return;
+  }
 
-    const employee =
-        getSelectedEmployee();
+  const attendance=getAttendanceRecords();
+  const existingIndex=attendance.findIndex(r=>String(r.employeeId)===String(employeeId)&&r.date===date);
 
-    if (!employee) {
+  if(existingIndex!==-1 && attendance[existingIndex].checkIn){
+    showAttendanceMessage("Employee is already checked in for this date.","error");
+    return;
+  }
 
-        showAttendanceMessage(
-            "Please select an employee.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    const today =
-        getCurrentDate();
-
-    const attendance =
-        getAttendanceRecords();
-
-
-    const existingIndex =
-        attendance.findIndex(function(record) {
-
-            return (
-                String(record.employee) === String(employee) &&
-                record.date === today
-            );
-
-        });
-
-
-    if (existingIndex !== -1) {
-
-        showAttendanceMessage(
-            "Attendance already marked for today.",
-            "orange"
-        );
-
-        return;
-    }
-
-
+  if(existingIndex===-1){
     attendance.push({
-
-        employee: employee,
-
-        employeeName:
-            getEmployeeName(employee),
-
-        date: today,
-
-        checkIn: "",
-
-        checkOut: "",
-
-        status: "Present"
-
+      id:makeId(),
+      employeeId,
+      employeeName:getSelectedEmployeeName(),
+      date,
+      checkIn:getCurrentTime(),
+      checkOut:"",
+      status:"Present"
     });
+  }else{
+    attendance[existingIndex].checkIn=getCurrentTime();
+    attendance[existingIndex].employeeName=getSelectedEmployeeName();
+    attendance[existingIndex].status="Present";
+  }
 
-
-    if (!saveAttendanceRecords(attendance)) {
-
-        showAttendanceMessage(
-            "Unable to save attendance.",
-            "red"
-        );
-
-        return;
-    }
-
-
-    showAttendanceMessage(
-        "🟢 Attendance marked Present.",
-        "green"
-    );
-
-
-    loadAttendanceHistory();
-}
-window.markAttendance = markAttendance;
-window.checkInEmployee = checkInEmployee;
-window.checkOutEmployee = checkOutEmployee;
-window.loadAttendanceHistory = loadAttendanceHistory;
-window.refreshAttendance = refreshAttendance;
-
-/* =========================
-   LOAD ATTENDANCE HISTORY
-========================= */
-
-function loadAttendanceHistory() {
-
-    const tbody =
-        document.querySelector(
-            "#attendanceHistory tbody"
-        ) ||
-        document.querySelector(
-            "#attendanceTable tbody"
-        );
-
-
-    if (!tbody) {
-
-        console.warn(
-            "Attendance table not found."
-        );
-
-        return;
-    }
-
-
-    const attendance =
-        getAttendanceRecords();
-
-
-    tbody.innerHTML = "";
-
-
-    if (attendance.length === 0) {
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6"
-                    style="text-align:center;padding:20px;">
-                    No attendance records found.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    attendance.sort(function(a, b) {
-    const dateA = String(a.date || "") + " " + String(a.checkIn || "");
-    const dateB = String(b.date || "") + " " + String(b.checkIn || "");
-
-    return dateB.localeCompare(dateA);
-});
-
-
-    attendance.forEach(function(record) {
-
-        const row =
-            document.createElement("tr");
-
-
-        const employeeName =
-            record.employeeName ||
-            record.employee ||
-            "-";
-
-
-        row.innerHTML = `
-
-            <td style="padding:10px;">
-                ${employeeName}
-            </td>
-
-            <td style="padding:10px;">
-                ${record.date || "-"}
-            </td>
-
-            <td style="padding:10px;">
-                ${record.checkIn || "-"}
-            </td>
-
-            <td style="padding:10px;">
-                ${record.checkOut || "-"}
-            </td>
-
-            <td style="padding:10px;">
-                ${record.status || "Present"}
-            </td>
-
-        `;
-
-
-        tbody.appendChild(row);
-
-    });
+  saveAttendanceRecords(attendance);
+  showAttendanceMessage("🟢 Check In recorded successfully!");
+  loadAttendanceHistory();
 }
 
+function checkOutEmployee(){
+  const employeeId=getSelectedEmployee();
+  const date=document.getElementById("attendanceDate").value||getCurrentDate();
 
-/* =========================
-   REFRESH ATTENDANCE
-========================= */
+  if(!employeeId){
+    showAttendanceMessage("Please select an employee.","error");
+    return;
+  }
 
-function refreshAttendance() {
+  const attendance=getAttendanceRecords();
+  const index=attendance.findIndex(r=>String(r.employeeId)===String(employeeId)&&r.date===date);
 
-    window.location.reload();
+  if(index===-1 || !attendance[index].checkIn){
+    showAttendanceMessage("Employee has not checked in for this date.","error");
+    return;
+  }
 
-    showAttendanceMessage(
-        "Attendance refreshed successfully.",
-        "green"
-    );
+  if(attendance[index].checkOut){
+    showAttendanceMessage("Employee is already checked out.","error");
+    return;
+  }
+
+  attendance[index].checkOut=getCurrentTime();
+  attendance[index].status="Present";
+  saveAttendanceRecords(attendance);
+
+  showAttendanceMessage("🔴 Check Out recorded successfully!");
+  loadAttendanceHistory();
 }
 
+/* =========================
+   ATTENDANCE HISTORY
+========================= */
+function loadAttendanceHistory(){
+  const tbody=document.getElementById("attendanceHistoryBody");
+  const attendance=getAttendanceRecords();
+
+  attendance.sort((a,b)=>{
+    const aa=(a.date||"")+" "+(a.checkIn||"");
+    const bb=(b.date||"")+" "+(b.checkIn||"");
+    return bb.localeCompare(aa);
+  });
+
+  tbody.innerHTML="";
+
+  if(attendance.length===0){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:#667085">No attendance records found.</td></tr>';
+    return;
+  }
+
+  attendance.forEach(record=>{
+    const row=document.createElement("tr");
+
+    const name=document.createElement("td");
+    name.textContent=record.employeeName||getEmployeeNameById(record.employeeId)||"-";
+
+    const date=document.createElement("td");
+    date.textContent=record.date||"-";
+
+    const checkIn=document.createElement("td");
+    checkIn.textContent=record.checkIn||"-";
+
+    const checkOut=document.createElement("td");
+    checkOut.textContent=record.checkOut||"-";
+
+    const status=document.createElement("td");
+    status.textContent=record.status||"Present";
+    status.className=record.checkOut?"status-present":"status-open";
+
+    const action=document.createElement("td");
+    const del=document.createElement("button");
+    del.type="button";
+    del.className="small-btn delete-btn";
+    del.textContent="🗑️ Delete";
+    del.onclick=()=>deleteAttendance(record.id);
+    action.appendChild(del);
+
+    row.append(name,date,checkIn,checkOut,status,action);
+    tbody.appendChild(row);
+  });
+}
+
+function getEmployeeNameById(id){
+  const e=getEmployees().find(x=>String(x.id)===String(id));
+  return e?e.name:"";
+}
+
+function deleteAttendance(id){
+  if(!confirm("Delete this attendance record?")) return;
+  saveAttendanceRecords(getAttendanceRecords().filter(r=>r.id!==id));
+  loadAttendanceHistory();
+  showAttendanceMessage("Attendance record deleted.");
+}
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,ch=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[ch]));
+}
 
 /* =========================
-   CONNECT BUTTONS
+   INITIALIZE
 ========================= */
+function initializeAttendance(){
+  seedEmployeesIfNeeded();
 
-/* =====================================================
-   ATTENDANCE BUTTON CONNECTION
-   ===================================================== */
+  const date=document.getElementById("attendanceDate");
+  date.value=getCurrentDate();
 
-document.addEventListener("click", function(event) {
-    if (event.target.closest("button") &&
-        event.target.closest("button").innerText.includes("Refresh Attendance")) {
-        event.preventDefault();
-        window.location.reload();
-        return;
-    }
-}); document.addEventListener("click", function (event) {
+  populateEmployeeSelect();
+  renderEmployeeList();
+  loadAttendanceHistory();
+}
 
-    const button = event.target.closest("button");
-
-    if (!button) {
-        return;
-    }
-
-    const text = button.textContent.trim().toLowerCase();
-
-    /* CHECK IN */
-    if (text.includes("check in")) {
-        event.preventDefault();
-        checkInEmployee();
-        return;
-    }
-
-    /* CHECK OUT */
-    if (text.includes("check out")) {
-        event.preventDefault();
-        checkOutEmployee();
-        return;
-    }
-
-    /* MARK PRESENT */
-    if (text.includes("mark present")) {
-        event.preventDefault();
-        markAttendancePresent();
-        return;
-    }
-
-    /* REFRESH ATTENDANCE */
-    if (text.includes("refresh")) {
-        event.preventDefault();
-        refreshAttendance();
-        return;
-    }
-
-});
-document.addEventListener("click", function(event) {
-    const button = event.target.closest("button");
-
-    if (!button) return;
-
-    const text = button.textContent.trim().toLowerCase();
-
-    if (text.includes("refresh attendance")) {
-        event.preventDefault();
-        loadAttendanceHistory();
-    }
-});
-
+document.addEventListener("DOMContentLoaded",initializeAttendance);
+</script>
 </body>
 </html>
