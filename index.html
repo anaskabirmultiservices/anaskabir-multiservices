@@ -784,7 +784,11 @@ function markAttendance() {
 
     loadAttendanceHistory();
 }
-
+window.markAttendance = markAttendance;
+window.checkInEmployee = checkInEmployee;
+window.checkOutEmployee = checkOutEmployee;
+window.loadAttendanceHistory = loadAttendanceHistory;
+window.refreshAttendance = refreshAttendance;
 
 /* =========================
    LOAD ATTENDANCE HISTORY
