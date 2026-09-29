@@ -836,10 +836,11 @@ function loadAttendanceHistory() {
     attendance.sort(function(a, b) {
 
         const dateA =
-            ${a.date || ""} ${a.checkIn || ""};
+    `${a.date || ""} ${a.checkIn || ""}`;
 
-        const dateB =
-            ${b.date || ""} ${b.checkIn || ""};
+const dateB =
+    `${b.date || ""} ${b.checkIn || ""}`;
+
 
         return dateB.localeCompare(dateA);
 
