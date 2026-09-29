@@ -834,17 +834,11 @@ function loadAttendanceHistory() {
 
 
     attendance.sort(function(a, b) {
+    const dateA = String(a.date || "") + " " + String(a.checkIn || "");
+    const dateB = String(b.date || "") + " " + String(b.checkIn || "");
 
-        const dateA =
-    `${a.date || ""} ${a.checkIn || ""}`;
-
-const dateB =
-    `${b.date || ""} ${b.checkIn || ""}`;
-
-
-        return dateB.localeCompare(dateA);
-
-    });
+    return dateB.localeCompare(dateA);
+});
 
 
     attendance.forEach(function(record) {
