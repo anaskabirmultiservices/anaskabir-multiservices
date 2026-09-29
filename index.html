@@ -233,7 +233,7 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 <button type="button" class="btn btn-purple" onclick="openEmployeeModal()">➕ Add New Employee</button>
 <button type="button" class="btn green" onclick="checkInEmployee()">🟢 Check In</button>
 <button type="button" class="btn btn-red" onclick="checkOutEmployee()">🔴 Check Out</button>
-<button type="button" class="btn btn-dark" onclick="location.reload()">🔄 Refresh</button>
+<button type="button" class="btn btn-dark" onclick="initializeAttendance();showAttendanceMessage('🔄 Attendance refreshed successfully!')">🔄 Refresh</button>
 </div>
 
 <div id="attendanceMessage" class="message"></div>
