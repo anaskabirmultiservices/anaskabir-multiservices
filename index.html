@@ -277,7 +277,35 @@ footer{background:#101828;color:#fff;padding:30px 0}.foot{display:flex;justify-c
 </div></footer>
 <a class="float" href="https://wa.me/918600295143" target="_blank">💬 WhatsApp</a>
 
-<!-- ADD / EDIT EMPLOYEE MODAL -->
+<!-- MONTHLY ATTENDANCE REPORT MODAL -->
+<div id="monthlyReportModal" class="modal">
+<div class="modal-card monthly-report-card">
+
+<h2>📊 Monthly Attendance Report</h2>
+
+<div class="attendance-toolbar">
+
+<div class="field">
+<label for="reportMonth">Select Month</label>
+<input type="month" id="reportMonth">
+</div>
+
+<div class="field">
+<label for="reportEmployee">Select Employee</label>
+<select id="reportEmployee"></select>
+</div>
+
+</div>
+
+<div id="monthlyReportContent" style="margin-top:20px;"></div>
+
+<div class="modal-actions">
+<button type="button" class="btn outline" onclick="closeMonthlyReport()">Close</button>
+<button type="button" class="btn primary" onclick="printMonthlyReport()">🖨️ Print Report</button>
+</div>
+
+</div>
+</div><!-- ADD / EDIT EMPLOYEE MODAL -->
 <div id="employeeModal" class="modal" onclick="closeModalOnBackdrop(event)">
 <div class="modal-card">
 <h2 id="employeeModalTitle">Add New Employee</h2>
@@ -685,6 +713,342 @@ function initializeAttendance(){
 }
 
 document.addEventListener("DOMContentLoaded",initializeAttendance);
-</script>
+/* =========================
+   MONTHLY ATTENDANCE REPORT
+========================= */
+
+function getCurrentMonth(){
+  const now=new Date();
+  return now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+}
+
+function openMonthlyReport(){
+  const modal=document.getElementById("monthlyReportModal");
+  const monthInput=document.getElementById("reportMonth");
+  const employeeSelect=document.getElementById("reportEmployee");
+
+  monthInput.value=getCurrentMonth();
+
+  employeeSelect.innerHTML='<option value="all">All Employees</option>';
+
+  getEmployees()
+    .sort((a,b)=>a.name.localeCompare(b.name))
+    .forEach(emp=>{
+      const option=document.createElement("option");
+      option.value=emp.id;
+      option.textContent=emp.name;
+      employeeSelect.appendChild(option);
+    });
+
+  modal.classList.add("show");
+
+  monthInput.onchange=generateMonthlyReport;
+  employeeSelect.onchange=generateMonthlyReport;
+
+  generateMonthlyReport();
+}
+
+function closeMonthlyReport(){
+  document.getElementById("monthlyReportModal").classList.remove("show");
+}
+
+function formatReportDate(date){
+  if(!date) return "-";
+  const parts=date.split("-");
+  return parts[2]+"-"+parts[1]+"-"+parts[0];
+}
+
+function calculateHours(checkIn,checkOut){
+  if(!checkIn || !checkOut) return "-";
+
+  const start=checkIn.split(":").map(Number);
+  const end=checkOut.split(":").map(Number);
+
+  const startMinutes=start[0]*60+start[1];
+  const endMinutes=end[0]*60+end[1];
+
+  let difference=endMinutes-startMinutes;
+
+  if(difference<0) difference+=24*60;
+
+  const hours=Math.floor(difference/60);
+  const minutes=difference%60;
+
+  return hours+"h "+String(minutes).padStart(2,"0")+"m";
+}
+
+function generateMonthlyReport(){
+
+  const month=document.getElementById("reportMonth");
+  const employeeId=document.getElementById("reportEmployee");
+  const content=document.getElementById("monthlyReportContent");
+
+  if(!month || !content) return;
+
+  if(!month.value){
+    content.innerHTML="<p>Please select a month.</p>";
+    return;
+  }
+
+  const employees=getEmployees();
+  const attendance=getAttendanceRecords();
+
+  let records=attendance.filter(record=>{
+    return record.date && record.date.startsWith(month.value);
+  });
+
+  if(employeeId && employeeId.value && employeeId.value!=="all"){
+    records=records.filter(record=>{
+      return String(record.employeeId)===String(employeeId.value);
+    });
+  }
+
+  records.sort((a,b)=>{
+    const aa=(a.date||"")+" "+(a.checkIn||"");
+    const bb=(b.date||"")+" "+(b.checkIn||"");
+    return aa.localeCompare(bb);
+  });
+
+  const present=records.length;
+
+  const completed=records.filter(record=>{
+    return record.checkIn && record.checkOut;
+  }).length;
+
+  const openRecords=records.filter(record=>{
+    return record.checkIn && !record.checkOut;
+  }).length;
+
+  let totalMinutes=0;
+
+  records.forEach(record=>{
+
+    if(record.checkIn && record.checkOut){
+
+      const start=record.checkIn.split(":").map(Number);
+      const end=record.checkOut.split(":").map(Number);
+
+      let startMinutes=start[0]*60+start[1];
+      let endMinutes=end[0]*60+end[1];
+
+      let difference=endMinutes-startMinutes;
+
+      if(difference<0){
+        difference+=1440;
+      }
+
+      totalMinutes+=difference;
+    }
+  });
+
+  const totalHours=Math.floor(totalMinutes/60);
+  const totalRemainingMinutes=totalMinutes%60;
+
+  let employeeTitle="All Employees";
+
+  if(employeeId && employeeId.value!=="all"){
+
+    const employee=employees.find(e=>{
+      return String(e.id)===String(employeeId.value) ||
+             String(e.employeeId)===String(employeeId.value);
+    });
+
+    if(employee){
+      employeeTitle=employee.name ||
+                     employee.employeeName ||
+                     employeeTitle;
+    }
+  }
+
+  const monthName=new Date(month.value+"-01").toLocaleDateString(
+    "en-IN",
+    {
+      month:"long",
+      year:"numeric"
+    }
+  );
+
+  let html=`
+    <div class="report-header">
+
+      <h3>${escapeHtml(employeeTitle)}</h3>
+
+      <p>
+        <b>Month:</b> ${escapeHtml(monthName)}
+      </p>
+
+    </div>
+
+    <div class="report-summary">
+
+      <div class="report-box">
+        <b>${present}</b>
+        <span>Present Records</span>
+      </div>
+
+      <div class="report-box">
+        <b>${completed}</b>
+        <span>Completed</span>
+      </div>
+
+      <div class="report-box">
+        <b>${openRecords}</b>
+        <span>Open Records</span>
+      </div>
+
+      <div class="report-box">
+        <b>${totalHours}h ${String(totalRemainingMinutes).padStart(2,"0")}m</b>
+        <span>Total Working Hours</span>
+      </div>
+
+    </div>
+
+    <div class="report-table-wrap">
+
+      <table class="report-table">
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Employee</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Working Hours</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+  records.forEach(record=>{
+
+    const employee=employees.find(e=>{
+      return String(e.id)===String(record.employeeId) ||
+             String(e.employeeId)===String(record.employeeId);
+    });
+
+    const name=employee
+      ? (employee.name || employee.employeeName || "Employee")
+      : (record.employeeName || "Employee");
+
+    const workingHours=
+      record.checkIn && record.checkOut
+        ? calculateHours(record.checkIn,record.checkOut)
+        : "-";
+
+    const status=
+      record.checkIn && record.checkOut
+        ? "Completed"
+        : record.checkIn
+          ? "Open"
+          : "Absent";
+
+}
+     
+
+function printMonthlyReport(){
+
+  const content=document.getElementById("monthlyReportContent").innerHTML;
+  const month=document.getElementById("reportMonth").value;
+
+  const employeeSelect=document.getElementById("reportEmployee");
+
+  const employeeName=
+    employeeSelect.options[employeeSelect.selectedIndex].text;
+
+  const printWindow=window.open("","_blank");
+
+  printWindow.document.write(`
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <title>Monthly Attendance Report</title>
+
+  <style>
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    padding:30px;
+    color:#101828;
+  }
+
+  h1{
+    text-align:center;
+    margin-bottom:5px;
+  }
+
+  .company{
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+  }
+
+  .subtitle{
+    text-align:center;
+    color:#667085;
+    margin-bottom:25px;
+  }
+
+  .report-summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin:20px 0;
+  }
+
+  .report-box{
+    border:1px solid #ddd;
+    padding:15px;
+    text-align:center;
+    border-radius:8px;
+  }
+
+  .report-box b{
+    display:block;
+    font-size:22px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+  }
+
+  th,td{
+    border:1px solid #ccc;
+    padding:9px;
+    text-align:left;
+  }
+
+  th{
+    background:#f3f4f6;
+  }
+  </style>
+  </head>
+
+  <body>
+
+  <div class="company">
+  AnasKabir Multiservices
+  </div>
+
+  <h1>Monthly Attendance Report</h1>
+
+  <div class="subtitle">
+  ${employeeName} | ${month}
+  </div>
+
+  ${content}
+
+  </body>
+  </html>
+  `);
+
+  printWindow.document.close();
+
+  setTimeout(()=>{
+    printWindow.print();
+  },500);
+   }</script>
 </body>
 </html>
