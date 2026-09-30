@@ -778,7 +778,6 @@ function calculateHours(checkIn,checkOut){
 }
 
 function generateMonthlyReport(){
-
   const month=document.getElementById("reportMonth");
   const employeeId=document.getElementById("reportEmployee");
   const content=document.getElementById("monthlyReportContent");
@@ -793,14 +792,14 @@ function generateMonthlyReport(){
   const employees=getEmployees();
   const attendance=getAttendanceRecords();
 
-  let records=attendance.filter(record=>{
-    return record.date && record.date.startsWith(month.value);
-  });
+  let records=attendance.filter(record=>
+    record.date && record.date.startsWith(month.value)
+  );
 
   if(employeeId && employeeId.value && employeeId.value!=="all"){
-    records=records.filter(record=>{
-      return String(record.employeeId)===String(employeeId.value);
-    });
+    records=records.filter(record=>
+      String(record.employeeId)===String(employeeId.value)
+    );
   }
 
   records.sort((a,b)=>{
@@ -810,33 +809,18 @@ function generateMonthlyReport(){
   });
 
   const present=records.length;
-
-  const completed=records.filter(record=>{
-    return record.checkIn && record.checkOut;
-  }).length;
-
-  const openRecords=records.filter(record=>{
-    return record.checkIn && !record.checkOut;
-  }).length;
+  const completed=records.filter(record=>record.checkIn && record.checkOut).length;
+  const openRecords=records.filter(record=>record.checkIn && !record.checkOut).length;
 
   let totalMinutes=0;
-
   records.forEach(record=>{
-
     if(record.checkIn && record.checkOut){
-
       const start=record.checkIn.split(":").map(Number);
       const end=record.checkOut.split(":").map(Number);
-
       let startMinutes=start[0]*60+start[1];
       let endMinutes=end[0]*60+end[1];
-
       let difference=endMinutes-startMinutes;
-
-      if(difference<0){
-        difference+=1440;
-      }
-
+      if(difference<0) difference+=1440;
       totalMinutes+=difference;
     }
   });
@@ -845,68 +829,31 @@ function generateMonthlyReport(){
   const totalRemainingMinutes=totalMinutes%60;
 
   let employeeTitle="All Employees";
-
   if(employeeId && employeeId.value!=="all"){
-
-    const employee=employees.find(e=>{
-      return String(e.id)===String(employeeId.value) ||
-             String(e.employeeId)===String(employeeId.value);
-    });
-
-    if(employee){
-      employeeTitle=employee.name ||
-                     employee.employeeName ||
-                     employeeTitle;
-    }
+    const employee=employees.find(e=>String(e.id)===String(employeeId.value));
+    if(employee) employeeTitle=employee.name || "Employee";
   }
 
-  const monthName=new Date(month.value+"-01").toLocaleDateString(
-    "en-IN",
-    {
-      month:"long",
-      year:"numeric"
-    }
-  );
+  const monthName=new Date(month.value+"-01").toLocaleDateString("en-IN",{
+    month:"long",
+    year:"numeric"
+  });
 
   let html=`
     <div class="report-header">
-
       <h3>${escapeHtml(employeeTitle)}</h3>
-
-      <p>
-        <b>Month:</b> ${escapeHtml(monthName)}
-      </p>
-
+      <p><b>Month:</b> ${escapeHtml(monthName)}</p>
     </div>
 
     <div class="report-summary">
-
-      <div class="report-box">
-        <b>${present}</b>
-        <span>Present Records</span>
-      </div>
-
-      <div class="report-box">
-        <b>${completed}</b>
-        <span>Completed</span>
-      </div>
-
-      <div class="report-box">
-        <b>${openRecords}</b>
-        <span>Open Records</span>
-      </div>
-
-      <div class="report-box">
-        <b>${totalHours}h ${String(totalRemainingMinutes).padStart(2,"0")}m</b>
-        <span>Total Working Hours</span>
-      </div>
-
+      <div class="report-box"><b>${present}</b><span>Present Records</span></div>
+      <div class="report-box"><b>${completed}</b><span>Completed</span></div>
+      <div class="report-box"><b>${openRecords}</b><span>Open Records</span></div>
+      <div class="report-box"><b>${totalHours}h ${String(totalRemainingMinutes).padStart(2,"0")}m</b><span>Total Working Hours</span></div>
     </div>
 
     <div class="report-table-wrap">
-
       <table class="report-table">
-
         <thead>
           <tr>
             <th>Date</th>
@@ -917,35 +864,32 @@ function generateMonthlyReport(){
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody>
   `;
 
-  records.forEach(record=>{
+  if(records.length===0){
+    html+=`<tr><td colspan="6" style="text-align:center;padding:20px;color:#667085">No attendance records found for this month.</td></tr>`;
+  }else{
+    records.forEach(record=>{
+      const employee=employees.find(e=>String(e.id)===String(record.employeeId));
+      const name=employee ? (employee.name || "Employee") : (record.employeeName || "Employee");
+      const workingHours=record.checkIn && record.checkOut ? calculateHours(record.checkIn,record.checkOut) : "-";
+      const status=record.checkIn && record.checkOut ? "Completed" : record.checkIn ? "Open" : "Absent";
 
-    const employee=employees.find(e=>{
-      return String(e.id)===String(record.employeeId) ||
-             String(e.employeeId)===String(record.employeeId);
+      html+=`<tr>
+        <td>${escapeHtml(formatReportDate(record.date))}</td>
+        <td>${escapeHtml(name)}</td>
+        <td>${escapeHtml(record.checkIn || "-")}</td>
+        <td>${escapeHtml(record.checkOut || "-")}</td>
+        <td>${escapeHtml(workingHours)}</td>
+        <td>${escapeHtml(status)}</td>
+      </tr>`;
     });
+  }
 
-    const name=employee
-      ? (employee.name || employee.employeeName || "Employee")
-      : (record.employeeName || "Employee");
-
-    const workingHours=
-      record.checkIn && record.checkOut
-        ? calculateHours(record.checkIn,record.checkOut)
-        : "-";
-
-    const status=
-      record.checkIn && record.checkOut
-        ? "Completed"
-        : record.checkIn
-          ? "Open"
-          : "Absent";
-
+  html+=`</tbody></table></div>`;
+  content.innerHTML=html;
 }
-     
 
 function printMonthlyReport(){
 
